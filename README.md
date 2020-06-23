@@ -18,7 +18,10 @@ php artisan fjord:pages Blog
 
 A config is created and two controllers, one for the fjord backend in `./fjord/app/Controllers/Pages` and one for your application in `./app/Http/Controllers/Pages`.
 
-In the config you can configure the route prefix and the possible repeatabels:
+In the config you can configure the route prefix and the possible repeatabels. The url of the page consists of the route prefix specified in the config and the sluggified page title. So a route for the following case could be `/blog/my-title`. If the page is translatable a route is created for each locale specified in the config like so:
+
+-   `en/blog/{slug}`
+-   `en/blog/{slug}`
 
 ```php
 // ./fjord/app/Config/Pages/BlogConfig.php
