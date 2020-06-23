@@ -14,5 +14,6 @@ class DummyClass
         $page = $this->getFjordPage($slug);
 
         return $page;
+        // return view('pages.my-collection')->withPage($page);
     }
 }
