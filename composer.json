@@ -7,7 +7,9 @@
             "email": "lennart.carbe@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "aw-studio/fjord": "^2.3"
+    },
     "autoload": {
         "psr-4": {
             "FjordPages\\": "src/"
