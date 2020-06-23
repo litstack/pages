@@ -1,0 +1,23 @@
+{
+    "name": "aw-studio/fjord-pages",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lennart Carstens-Behrens",
+            "email": "lennart.carbe@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "FjordPages\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "FjordPages\\FjordPagesServiceProvider"
+            ]
+        }
+    }
+}

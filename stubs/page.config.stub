@@ -1,0 +1,67 @@
+<?php
+
+namespace DummyNamespace;
+
+use FjordPages\PagesConfig;
+use Illuminate\Routing\Route;
+use Fjord\Crud\Fields\Block\Repeatables;
+use App\Http\Controllers\Pages\DummyController;
+use FjordApp\Controllers\Pages\DummyController as FjordDummyController;
+
+class DummyClass extends PagesConfig
+{
+    /**
+     * Fjord controller class.
+     *
+     * @var string
+     */
+    public $controller = FjordDummyController::class;
+
+    /**
+     * App controller class.
+     *
+     * @var string
+     */
+    public $appController = DummyController::class;
+
+    /**
+     * Application route prefix.
+     *
+     * @param string|null $locale
+     * @return string
+     */
+    public function appRoutePrefix(string $locale = null)
+    {
+        return "DummyCollectionRouteName";
+    }
+
+    /**
+     * Form singular name. This name will be displayed in the navigation.
+     *
+     * @return array
+     */
+    public function names()
+    {
+        return [
+            'singular' => 'DummyPageName',
+            'plural' => 'DummyPagesName'
+        ];
+    }
+
+    /**
+     * Make repeatbles that should be available for pages.
+     *
+     * @param Repeatables $rep
+     * @return void
+     */
+    public function repeatables(Repeatables $rep)
+    {
+        $rep->add('text', function ($form, $preview) {
+            $preview->col('text')->stripHtml()->maxChars('50');
+
+            $form->wysiwyg('text')
+                ->title('Text')
+                ->translatable($this->translatable());
+        });
+    }
+}

@@ -1,0 +1,18 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Http\Request;
+use FjordPages\ManagesFjordPages;
+
+class DummyClass
+{
+    use ManagesFjordPages;
+
+    public function __invoke(Request $request, $slug)
+    {
+        $page = $this->getFjordPage($slug);
+
+        return $page;
+    }
+}
