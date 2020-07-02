@@ -10,11 +10,13 @@ use Illuminate\Database\Eloquent\Model;
 use Fjord\Crud\Models\Traits\TrackEdits;
 use Fjord\Crud\Models\Traits\Translatable;
 use FjordPages\Models\FjordPageTranslation;
+use Spatie\MediaLibrary\HasMedia as HasMediaContract;
+use Fjord\Crud\Models\Traits\HasMedia;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
-class FjordPage extends Model implements TranslatableContract
+class FjordPage extends Model implements TranslatableContract, HasMediaContract
 {
-    use TrackEdits, Translatable, Sluggable;
+    use TrackEdits, Translatable, Sluggable, HasMedia;
 
     /**
      * Translation model name.
