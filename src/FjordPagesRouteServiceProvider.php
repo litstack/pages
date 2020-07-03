@@ -2,15 +2,14 @@
 
 namespace FjordPages;
 
-use SplFileInfo;
-use ReflectionClass;
-use FjordPages\PagesConfig;
-use Illuminate\Support\Str;
 use Fjord\Config\ConfigHandler;
 use Fjord\Support\Facades\Config;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
+use Illuminate\Support\Str;
+use ReflectionClass;
+use SplFileInfo;
 
 class FjordPagesRouteServiceProvider extends RouteServiceProvider
 {
@@ -27,7 +26,7 @@ class FjordPagesRouteServiceProvider extends RouteServiceProvider
     /**
      * Map pages routes for collection.
      *
-     * @param ConfigHandler $config
+     * @param  ConfigHandler $config
      * @return void
      */
     protected function mapPagesRoutesForCollection(ConfigHandler $config)
@@ -42,7 +41,7 @@ class FjordPagesRouteServiceProvider extends RouteServiceProvider
     /**
      * Make translatable routes for locales.
      *
-     * @param ConfigHandler $config
+     * @param  ConfigHandler $config
      * @return void
      */
     protected function makeTranslatableRoutes(ConfigHandler $config)
@@ -55,8 +54,8 @@ class FjordPagesRouteServiceProvider extends RouteServiceProvider
     /**
      * Make pages route.
      *
-     * @param ConfigHandler $config
-     * @param string|null $locale
+     * @param  ConfigHandler $config
+     * @param  string|null   $locale
      * @return void
      */
     protected function makePagesRoute(ConfigHandler $config, $locale = null)
@@ -64,19 +63,22 @@ class FjordPagesRouteServiceProvider extends RouteServiceProvider
         $routeName = $this->routeName("pages.{$config->collection}", $locale);
         $routePrefix = $this->routePrefix($config->appRoutePrefix($locale), $locale);
 
-        $route = Route::prefix($routePrefix)->get('{slug}', $config->appController)->name($routeName);
+        $route = Route::prefix($routePrefix)
+            ->get('{slug}', $config->appController)
+            ->config($config->getKey())
+            ->name($routeName);
     }
 
     /**
      * Get route prefix.
      *
-     * @param string $prefix
-     * @param string|null $locale
+     * @param  string      $prefix
+     * @param  string|null $locale
      * @return string
      */
     protected function routePrefix(string $prefix, string $locale = null)
     {
-        if (!$locale) {
+        if (! $locale) {
             return $prefix;
         }
 
@@ -86,13 +88,13 @@ class FjordPagesRouteServiceProvider extends RouteServiceProvider
     /**
      * Get route name.
      *
-     * @param string $name
-     * @param string|null $locale
+     * @param  string      $name
+     * @param  string|null $locale
      * @return string
      */
     protected function routeName(string $name, $locale = null)
     {
-        if (!$locale) {
+        if (! $locale) {
             return $name;
         }
 
@@ -106,20 +108,20 @@ class FjordPagesRouteServiceProvider extends RouteServiceProvider
      */
     protected function mapPagesRoutes()
     {
-        if (!fjord()->installed()) {
+        if (! fjord()->installed()) {
             return;
         }
 
         $files = File::allFiles(fjord_config_path());
 
         foreach ($files as $file) {
-            if (!$this->isValidPagesConfig($file)) {
+            if (! $this->isValidPagesConfig($file)) {
                 continue;
             }
 
             $config = Config::getFromPath($file);
 
-            if (!$config) {
+            if (! $config) {
                 continue;
             }
 
@@ -130,8 +132,8 @@ class FjordPagesRouteServiceProvider extends RouteServiceProvider
     /**
      * Determine if file is a valid pages config.
      *
-     * @param SplFileInfo $file
-     * @return boolean
+     * @param  SplFileInfo $file
+     * @return bool
      */
     protected function isValidPagesConfig(SplFileInfo $file)
     {
@@ -139,18 +141,18 @@ class FjordPagesRouteServiceProvider extends RouteServiceProvider
             return false;
         }
 
-        if (!Str::contains($file, '.php')) {
+        if (! Str::contains($file, '.php')) {
             return false;
         }
 
-        $namespace = str_replace("/", "\\", "FjordApp" . explode('fjord/app', str_replace('.php', '', $file))[1]);
+        $namespace = str_replace('/', '\\', 'FjordApp' . explode('fjord/app', str_replace('.php', '', $file))[1]);
         $reflection = new ReflectionClass($namespace);
 
-        if (!$reflection->getParentClass()) {
+        if (! $reflection->getParentClass()) {
             return false;
         }
 
-        if (!new $namespace instanceof PagesConfig) {
+        if (! new $namespace instanceof PagesConfig) {
             return false;
         }
 
