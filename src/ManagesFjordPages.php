@@ -2,21 +2,27 @@
 
 namespace FjordPages;
 
-use Illuminate\Support\Str;
 use FjordPages\Models\FjordPage;
+use Illuminate\Support\Str;
 
 trait ManagesFjordPages
 {
     /**
      * Get fjord page.
      *
-     * @param string $slug
+     * @param  string    $slug
      * @return FjordPage
      */
     protected function getFjordPage(string $slug): FjordPage
     {
+        $model = FjordPage::class;
+
+        if (app('request')->route()->getConfig()) {
+            $model = app('request')->route()->getConfig()->model;
+        }
+
         if ($this->isCurrentRouteTranslatable()) {
-            return FjordPage::whereTranslation('t_slug', $slug)
+            return $model::whereTranslation('t_slug', $slug)
                 ->whereTranslation('locale', $this->getCurrentRouteLocale())
                 ->firstOrFail();
         }
@@ -27,7 +33,7 @@ trait ManagesFjordPages
     /**
      * Is current route translatable.
      *
-     * @return boolean
+     * @return bool
      */
     protected function isCurrentRouteTranslatable()
     {
@@ -44,7 +50,7 @@ trait ManagesFjordPages
      */
     protected function getCurrentRouteLocale()
     {
-        if (!$this->isCurrentRouteTranslatable()) {
+        if (! $this->isCurrentRouteTranslatable()) {
             return;
         }
 
