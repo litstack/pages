@@ -16,8 +16,16 @@ class FjordPagesCollection extends Collection
      */
     public function registerToRouteCollection(string $name, RouteCollection $collection)
     {
-        $collection->group($name, function ($group) {
-            $this->map(fn ($page) => $group->route($page->title, fn () => $page->route));
+        if ($this->isEmpty()) {
+            return;
+        }
+
+        $collection->group($name, $this->first()->collection, function ($group) {
+            $this->map(function ($page) use ($group) {
+                $group->route($page->title, $page->id, function ($locale) use ($page) {
+                    return $page->getRoute($locale);
+                });
+            });
         });
     }
 }
