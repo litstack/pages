@@ -90,8 +90,9 @@ route collection as described in the
 [route field](https://www.fjord-admin.com/docs/fields/route/#register-routes)
 documentation.
 
-FjordPages comes with a helper that lets you add a list of pages directly to a
-route collection:
+FjordPages extends to Eloquent Collection with the helper method
+`addToRouteCollection` that lets you add a list of pages directly to a route
+collection:
 
 ```php
 use Fjord\Crud\Fields\Route;
