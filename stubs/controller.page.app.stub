@@ -13,7 +13,9 @@ class DummyClass
     {
         $page = $this->getFjordPage($slug);
 
-        return $page;
+        echo "Edit the controller in <a href=\"vscode:://open?file=".__FILE__."\">".__FILE__."</a>";
+
+        return dd($page);
         // return view('pages.my-collection')->withPage($page);
     }
 }

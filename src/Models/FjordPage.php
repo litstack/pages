@@ -5,15 +5,20 @@ namespace FjordPages\Models;
 use Illuminate\Routing\Route;
 use Fjord\Config\ConfigHandler;
 use Fjord\Support\Facades\Config;
+use FjordPages\FjordPagesCollection;
+use Fjord\Crud\Models\Traits\HasMedia;
 use Fjord\Crud\Models\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Fjord\Crud\Models\Traits\TrackEdits;
 use Fjord\Crud\Models\Traits\Translatable;
 use FjordPages\Models\FjordPageTranslation;
+use Fjord\Crud\Fields\Route\RouteCollection;
 use Spatie\MediaLibrary\HasMedia as HasMediaContract;
-use Fjord\Crud\Models\Traits\HasMedia;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
+/**
+ * @method static void collection(string $collection)
+ */
 class FjordPage extends Model implements TranslatableContract, HasMediaContract
 {
     use TrackEdits, Translatable, Sluggable, HasMedia;
@@ -68,8 +73,32 @@ class FjordPage extends Model implements TranslatableContract, HasMediaContract
     }
 
     /**
-     * Content repeatables.
+     * Collection query.
+     *
+     * @param Builder $query
+     * @param string $collection
+     * @return void
+     */
+    public function scopeCollection($query, $collection)
+    {
+        $query->where('collection', $collection);
+    }
 
+    /**
+     * Create a new FjordPagesCollection instance.
+     *
+     * @param  array  $models
+     * @return FjordPagesCollection
+     */
+    public function newCollection(array $models = [])
+    {
+        return new FjordPagesCollection($models);
+    }
+
+    /**
+     * Content repeatables.
+     *
+     * @return Relation
      */
     public function content()
     {
