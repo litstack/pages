@@ -1,7 +1,7 @@
 # Fjord Pages
 
 Fjord pages help you to quickly add new pages to your fjord application. This
-function turns your Fjord admin panel into a cms.
+turns your Fjord admin panel into a **cms**.
 
 ![fjord pages](./screen.png 'fjord pages')
 
