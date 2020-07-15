@@ -3,13 +3,14 @@
 namespace FjordPages\Models;
 
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Fjord\Config\ConfigHandler;
 use Fjord\Crud\Models\FjordFormModel;
-use Fjord\Crud\Models\Traits\Sluggable;
 use Fjord\Crud\Models\Traits\TrackEdits;
 use Fjord\Crud\Models\Traits\Translatable;
 use Fjord\Support\Facades\Config;
 use FjordPages\FjordPagesCollection;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Routing\Route;
 use Spatie\MediaLibrary\HasMedia as HasMediaContract;
@@ -19,7 +20,7 @@ use Spatie\MediaLibrary\HasMedia as HasMediaContract;
  */
 class FjordPage extends FjordFormModel implements TranslatableContract, HasMediaContract
 {
-    use TrackEdits, Translatable, Sluggable;
+    use Sluggable, TrackEdits, Translatable;
 
     /**
      * Translation model name.
@@ -66,11 +67,26 @@ class FjordPage extends FjordFormModel implements TranslatableContract, HasMedia
     ];
 
     /**
+     * Unique by title + locale.
+     *
+     * @param  Builder $query
+     * @param  mixed   $model
+     * @param  mixed   $attribute
+     * @param  array   $config
+     * @param  string  $slug
+     * @return Builder
+     */
+    public function scopeWithUniqueSlugConstraints(Builder $query, $model, $attribute, $config, $slug)
+    {
+        return $query->where('config_type', $model->config_type);
+    }
+
+    /**
      * Return the sluggable configuration array for this model.
      *
      * @return array
      */
-    public function sluggable()
+    public function sluggable(): array
     {
         return [
             'slug' => [

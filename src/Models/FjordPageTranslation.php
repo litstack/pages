@@ -2,7 +2,7 @@
 
 namespace FjordPages\Models;
 
-use Fjord\Crud\Models\Traits\Sluggable;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Fjord\Crud\Models\Traits\TrackEdits;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -49,6 +49,16 @@ class FjordPageTranslation extends Model
     }
 
     /**
+     * Parent page.
+     *
+     * @return void
+     */
+    public function page()
+    {
+        return $this->belongsTo(FjordPage::class, 'fjord_page_id');
+    }
+
+    /**
      * Unique by title + locale.
      *
      * @param  Builder $query
@@ -60,6 +70,8 @@ class FjordPageTranslation extends Model
      */
     public function scopeWithUniqueSlugConstraints(Builder $query, $model, $attribute, $config, $slug)
     {
-        return $query->where('locale', $model->locale);
+        return $query->where('locale', $model->locale)->whereHas('page', function ($pageQuery) use ($model) {
+            $pageQuery->where('config_type', $model->page->config_type);
+        });
     }
 }
