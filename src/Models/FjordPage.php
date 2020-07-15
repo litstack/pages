@@ -20,7 +20,7 @@ use Spatie\MediaLibrary\HasMedia as HasMediaContract;
  */
 class FjordPage extends FjordFormModel implements TranslatableContract, HasMediaContract
 {
-    use Sluggable, TrackEdits, Translatable;
+    use Sluggable, TrackEdits;
 
     /**
      * Translation model name.
