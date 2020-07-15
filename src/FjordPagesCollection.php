@@ -14,7 +14,7 @@ class FjordPagesCollection extends Collection
      * @param  RouteCollection $collection
      * @return void
      */
-    public function registerToRouteCollection(string $name, RouteCollection $collection)
+    public function addToRouteCollection(string $name, RouteCollection $collection)
     {
         if ($this->isEmpty()) {
             return;
