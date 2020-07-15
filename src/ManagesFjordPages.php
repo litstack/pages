@@ -17,17 +17,19 @@ trait ManagesFjordPages
     {
         $model = FjordPage::class;
 
-        if (app('request')->route()->getConfig()) {
-            $model = app('request')->route()->getConfig()->model;
+        if (! $config = app('request')->route()->getConfig()) {
+            abort(404);
         }
 
+        $query = $config->model::where('config_type', get_class($config->getConfig()));
+
         if ($this->isCurrentRouteTranslatable()) {
-            return $model::whereTranslation('t_slug', $slug)
+            return $query->whereTranslation('t_slug', $slug)
                 ->whereTranslation('locale', $this->getCurrentRouteLocale())
                 ->firstOrFail();
         }
 
-        return FjordPage::where('slug', $slug)->firstOrFail();
+        return $query->where('slug', $slug)->firstOrFail();
     }
 
     /**
