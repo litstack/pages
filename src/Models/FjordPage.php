@@ -3,6 +3,7 @@
 namespace FjordPages\Models;
 
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
+use Astrotomic\Translatable\Translatable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Fjord\Config\ConfigHandler;
 use Fjord\Crud\Models\FjordFormModel;
@@ -20,7 +21,7 @@ use Spatie\MediaLibrary\HasMedia as HasMediaContract;
  */
 class FjordPage extends FjordFormModel implements TranslatableContract, HasMediaContract
 {
-    use Sluggable, TrackEdits;
+    use Sluggable, TrackEdits, Translatable;
 
     /**
      * Translation model name.
