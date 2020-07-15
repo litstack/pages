@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateFjordPagesTable extends Migration
 {
@@ -20,6 +20,7 @@ class CreateFjordPagesTable extends Migration
             $table->string('config_type');
             $table->string('title')->nullable();
             $table->string('slug')->nullable();
+            $table->text('value')->nullable();
 
             $table->boolean('active')->default(true);
 
@@ -33,6 +34,7 @@ class CreateFjordPagesTable extends Migration
 
             $table->string('t_title')->nullable();
             $table->string('t_slug')->nullable();
+            $table->text('value')->nullable();
 
             $table->unique(['fjord_page_id', 'locale']);
             $table->foreign('fjord_page_id')->references('id')->on('fjord_pages')->onDelete('cascade');

@@ -2,18 +2,19 @@
 
 namespace FjordPages\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Fjord\Crud\Models\Traits\Sluggable;
+use Fjord\Crud\Models\Traits\TrackEdits;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class FjordPageTranslation extends Model
 {
-    use Sluggable;
+    use Sluggable, TrackEdits;
 
     /**
-     * Timestamps
+     * Timestamps.
      *
-     * @var boolean
+     * @var bool
      */
     public $timestamps = false;
 
@@ -22,7 +23,16 @@ class FjordPageTranslation extends Model
      *
      * @var array
      */
-    protected $fillable = ['t_title'];
+    protected $fillable = ['t_title', 'value'];
+
+    /**
+     * Casts.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'value' => 'json',
+    ];
 
     /**
      * Return the sluggable configuration array for this model.
@@ -33,19 +43,19 @@ class FjordPageTranslation extends Model
     {
         return [
             't_slug' => [
-                'source' => 't_title'
-            ]
+                'source' => 't_title',
+            ],
         ];
     }
 
     /**
      * Unique by title + locale.
      *
-     * @param Builder $query
-     * @param mixed $model
-     * @param mixed $attribute
-     * @param array $config
-     * @param string $slug
+     * @param  Builder $query
+     * @param  mixed   $model
+     * @param  mixed   $attribute
+     * @param  array   $config
+     * @param  string  $slug
      * @return Builder
      */
     public function scopeWithUniqueSlugConstraints(Builder $query, $model, $attribute, $config, $slug)

@@ -2,26 +2,24 @@
 
 namespace FjordPages\Models;
 
-use Illuminate\Routing\Route;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Fjord\Config\ConfigHandler;
-use Fjord\Support\Facades\Config;
-use FjordPages\FjordPagesCollection;
-use Fjord\Crud\Models\Traits\HasMedia;
+use Fjord\Crud\Models\FjordFormModel;
 use Fjord\Crud\Models\Traits\Sluggable;
-use Illuminate\Database\Eloquent\Model;
 use Fjord\Crud\Models\Traits\TrackEdits;
 use Fjord\Crud\Models\Traits\Translatable;
-use FjordPages\Models\FjordPageTranslation;
-use Fjord\Crud\Fields\Route\RouteCollection;
+use Fjord\Support\Facades\Config;
+use FjordPages\FjordPagesCollection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Routing\Route;
 use Spatie\MediaLibrary\HasMedia as HasMediaContract;
-use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
 /**
  * @method static void collection(string $collection)
  */
-class FjordPage extends Model implements TranslatableContract, HasMediaContract
+class FjordPage extends FjordFormModel implements TranslatableContract, HasMediaContract
 {
-    use TrackEdits, Translatable, Sluggable, HasMedia;
+    use TrackEdits, Translatable, Sluggable;
 
     /**
      * Translation model name.
@@ -31,14 +29,14 @@ class FjordPage extends Model implements TranslatableContract, HasMediaContract
     public $translationModel = FjordPageTranslation::class;
 
     /**
-     * Fillable attributes
+     * Fillable attributes.
      *
      * @var array
      */
-    protected $fillable = ['title'];
+    protected $fillable = ['title', 'value'];
 
     /**
-     * Translated attributes
+     * Translated attributes.
      *
      * @var array
      */
@@ -49,7 +47,7 @@ class FjordPage extends Model implements TranslatableContract, HasMediaContract
      *
      * @var array
      */
-    protected $appends = ['uri'];
+    protected $appends = ['uri', 'translation'];
 
     /**
      * Eager loads.
@@ -57,6 +55,15 @@ class FjordPage extends Model implements TranslatableContract, HasMediaContract
      * @var array
      */
     protected $with = ['translations'];
+
+    /**
+     * Casts.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'value' => 'json',
+    ];
 
     /**
      * Return the sluggable configuration array for this model.
@@ -67,16 +74,16 @@ class FjordPage extends Model implements TranslatableContract, HasMediaContract
     {
         return [
             'slug' => [
-                'source' => 'title'
-            ]
+                'source' => 'title',
+            ],
         ];
     }
 
     /**
      * Collection query.
      *
-     * @param Builder $query
-     * @param string $collection
+     * @param  Builder $query
+     * @param  string  $collection
      * @return void
      */
     public function scopeCollection($query, $collection)
@@ -87,7 +94,7 @@ class FjordPage extends Model implements TranslatableContract, HasMediaContract
     /**
      * Create a new FjordPagesCollection instance.
      *
-     * @param  array  $models
+     * @param  array                $models
      * @return FjordPagesCollection
      */
     public function newCollection(array $models = [])
@@ -108,33 +115,33 @@ class FjordPage extends Model implements TranslatableContract, HasMediaContract
     /**
      * Get route.
      *
-     * @param string $locale
+     * @param  string $locale
      * @return Route
      */
     public function getRoute(string $locale = null)
     {
-        if (!$this->id) {
+        if (! $this->id) {
             return;
         }
 
-        if (!$this->slug) {
+        if (! $this->slug) {
             return;
         }
 
         return route($this->getRouteName($locale), [
-            'slug' => $this->slug
+            'slug' => $this->slug,
         ], false);
     }
 
     /**
      * Get route name.
      *
-     * @param string|null $locale
+     * @param  string|null $locale
      * @return string
      */
     public function getRouteName(string $locale = null)
     {
-        if ($this->isTranslatable() && !$locale) {
+        if ($this->isTranslatable() && ! $locale) {
             $locale = app()->getLocale();
         }
 
@@ -152,7 +159,7 @@ class FjordPage extends Model implements TranslatableContract, HasMediaContract
      */
     public function getConfigAttribute()
     {
-        if (!$this->config_type) {
+        if (! $this->config_type) {
             return;
         }
 
@@ -172,7 +179,7 @@ class FjordPage extends Model implements TranslatableContract, HasMediaContract
     /**
      * Determine if page is translatable.
      *
-     * @return boolean
+     * @return bool
      */
     public function isTranslatable()
     {
@@ -182,7 +189,7 @@ class FjordPage extends Model implements TranslatableContract, HasMediaContract
     /**
      * Get page attribute.
      *
-     * @param string $key
+     * @param  string $key
      * @return mixed
      */
     protected function getPageAttribute($key)
@@ -197,7 +204,7 @@ class FjordPage extends Model implements TranslatableContract, HasMediaContract
     /**
      * Dynamically retrieve attributes on the model.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return mixed
      */
     public function __get($key)

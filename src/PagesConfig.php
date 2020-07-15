@@ -2,12 +2,12 @@
 
 namespace FjordPages;
 
-use Fjord\Crud\CrudShow;
-use Fjord\Crud\CrudIndex;
-use Illuminate\Support\Str;
-use FjordPages\Models\FjordPage;
 use Fjord\Crud\Config\CrudConfig;
+use Fjord\Crud\CrudIndex;
+use Fjord\Crud\CrudShow;
 use Fjord\Crud\Fields\Block\Repeatables;
+use FjordPages\Models\FjordPage;
+use Illuminate\Support\Str;
 
 abstract class PagesConfig extends CrudConfig
 {
@@ -28,7 +28,7 @@ abstract class PagesConfig extends CrudConfig
     /**
      * Make repeatbles that should be available for pages.
      *
-     * @param Repeatables $rep
+     * @param  Repeatables $rep
      * @return void
      */
     abstract public function repeatables(Repeatables $rep);
@@ -40,7 +40,7 @@ abstract class PagesConfig extends CrudConfig
      */
     public function fjordRoutePrefix()
     {
-        return "pages/" . Str::slug($this->collection());
+        return 'pages/'.Str::slug($this->collection());
     }
 
     /**
@@ -56,7 +56,7 @@ abstract class PagesConfig extends CrudConfig
     /**
      * Determine if pages are translatable.
      *
-     * @return boolean
+     * @return bool
      */
     public function translatable()
     {
@@ -76,7 +76,7 @@ abstract class PagesConfig extends CrudConfig
     /**
      * Build index table.
      *
-     * @param \Fjord\Crud\CrudIndex $table
+     * @param  \Fjord\Crud\CrudIndex $table
      * @return void
      */
     public function index(CrudIndex $container)
@@ -88,14 +88,14 @@ abstract class PagesConfig extends CrudConfig
     /**
      * Build index table columnds.
      *
-     * @param \Fjord\Vue\Crud\CrudTable $table
+     * @param  \Fjord\Vue\Crud\CrudTable $table
      * @return void
      */
     public function indexTableColumns($table)
     {
         $this->makeTitleColumns($table);
 
-        $table->col('Url ' . fa('external-link-alt'))
+        $table->col('Url '.fa('external-link-alt'))
             ->value('<a href="{uri}" target="_blank">{uri}</a>')
             ->link(false);
     }
@@ -103,13 +103,13 @@ abstract class PagesConfig extends CrudConfig
     /**
      * Make title column.
      *
-     * @param \Fjord\Vue\Crud\CrudTable $table
+     * @param  \Fjord\Vue\Crud\CrudTable $table
      * @return void
      */
     protected function makeTitleColumns($table)
     {
         $table->col('Title')
-            ->value('{' . $this->getTitleColumnName() . '}');
+            ->value('{'.$this->getTitleColumnName().'}');
     }
 
     /**
@@ -125,30 +125,43 @@ abstract class PagesConfig extends CrudConfig
     /**
      * Setup create and edit form.
      *
-     * @param \Fjord\Crud\CrudShow $container
+     * @param  \Fjord\Crud\CrudShow $page
      * @return void
      */
-    public function show(CrudShow $container)
+    public function show(CrudShow $page)
     {
-        $container->card(function ($form) {
-
+        $page->card(function ($form) {
             $form->input($this->getTitleColumnName())
                 ->translatable($this->translatable())
                 ->creationRules('required')
                 ->rules('min:2')
                 ->title('Title');
 
+            $this->prependForm($form);
+        });
+
+        $page->card(function ($form) {
             $this->makeContentBlock($form);
         });
 
-        $container->meta();
+        $this->appendForm($page);
+
+        $page->meta();
     }
 
+    public function prependForm(CrudShow $form)
+    {
+        //
+    }
+
+    public function appendForm(CrudShow $page)
+    {
+    }
 
     /**
      * Make content block.
      *
-     * @param CrudShow $form
+     * @param  CrudShow $form
      * @return void
      */
     protected function makeContentBlock($form)
