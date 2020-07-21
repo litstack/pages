@@ -3,11 +3,11 @@
 namespace FjordPages\Models;
 
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
+use Astrotomic\Translatable\Translatable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Fjord\Config\ConfigHandler;
 use Fjord\Crud\Models\FjordFormModel;
 use Fjord\Crud\Models\Traits\TrackEdits;
-use Fjord\Crud\Models\Traits\Translatable;
 use Fjord\Support\Facades\Config;
 use FjordPages\FjordPagesCollection;
 use Illuminate\Database\Eloquent\Builder;
@@ -66,6 +66,16 @@ class FjordPage extends FjordFormModel implements TranslatableContract, HasMedia
     protected $casts = [
         'value' => 'json',
     ];
+
+    /**
+     * Get translations array.
+     *
+     * @return array
+     */
+    public function getTranslationsArray(): array
+    {
+        return parent::getTranslationsArray();
+    }
 
     /**
      * Unique by title + locale.
