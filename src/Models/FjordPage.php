@@ -13,6 +13,7 @@ use FjordPages\FjordPagesCollection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Route as RouteFacade;
 use Spatie\MediaLibrary\HasMedia as HasMediaContract;
 
 /**
@@ -143,6 +144,10 @@ class FjordPage extends FjordFormModel implements TranslatableContract, HasMedia
         if (! $this->slug) {
             return;
         }
+
+        // dd(collect(RouteFacade::getRoutes()->getRoutes())->map(function ($route) {
+        //     return $route->uri.' => '.$route->getName();
+        // }));
 
         return route($this->getRouteName($locale), [
             'slug' => $this->slug,

@@ -63,10 +63,19 @@ class FjordPagesRouteServiceProvider extends RouteServiceProvider
         $routeName = $this->routeName("pages.{$config->collection}", $locale);
         $routePrefix = $this->routePrefix($config->appRoutePrefix($locale), $locale);
 
-        $route = Route::prefix($routePrefix)
-            ->get('{slug}', $config->appController)
-            ->config($config->getKey())
-            ->name($routeName);
+        if ($config->collection != 'root') {
+            $route = Route::prefix($routePrefix)
+                ->get('/{slug}', $config->appController)
+                ->config($config->getKey())
+                ->name($routeName);
+        } else {
+            $routePrefix = $locale ? "/{$locale}" : '/';
+            $this->app->booted(function ($app) use ($config, $routeName, $routePrefix) {
+                $route = Route::prefix($routePrefix)->get('{slug}', $config->appController)
+                    ->config($config->getKey())
+                    ->name($routeName);
+            });
+        }
     }
 
     /**
@@ -145,7 +154,7 @@ class FjordPagesRouteServiceProvider extends RouteServiceProvider
             return false;
         }
 
-        $namespace = str_replace('/', '\\', 'FjordApp' . explode('fjord/app', str_replace('.php', '', $file))[1]);
+        $namespace = str_replace('/', '\\', 'FjordApp'.explode('fjord/app', str_replace('.php', '', $file))[1]);
         $reflection = new ReflectionClass($namespace);
 
         if (! $reflection->getParentClass()) {
