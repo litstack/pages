@@ -30,9 +30,24 @@ class FjordPageTranslation extends Model
      *
      * @var array
      */
-    protected $casts = [
-        'value' => 'json',
-    ];
+    protected $casts = ['value' => 'json'];
+
+    /**
+     * Appended accessort.
+     *
+     * @var array
+     */
+    protected $appends = ['title'];
+
+    /**
+     * [title] attribute.
+     *
+     * @return void
+     */
+    public function getTitleAttribute()
+    {
+        return $this->t_title;
+    }
 
     /**
      * Return the sluggable configuration array for this model.

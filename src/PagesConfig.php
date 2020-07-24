@@ -60,7 +60,7 @@ abstract class PagesConfig extends CrudConfig
      */
     public function translatable()
     {
-        return config('translatable') ? true : false;
+        return fjord()->isAppTranslatable();
     }
 
     /**
