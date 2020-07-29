@@ -40,7 +40,7 @@ abstract class PagesConfig extends CrudConfig
      */
     public function fjordRoutePrefix()
     {
-        return 'pages/'.Str::slug($this->collection());
+        return 'pages/' . Str::slug($this->collection());
     }
 
     /**
@@ -95,7 +95,7 @@ abstract class PagesConfig extends CrudConfig
     {
         $this->makeTitleColumns($table);
 
-        $table->col('Url '.fa('external-link-alt'))
+        $table->col('Url ' . fa('external-link-alt'))
             ->value('<a href="{uri}" target="_blank">{uri}</a>')
             ->link(false);
     }
@@ -109,7 +109,7 @@ abstract class PagesConfig extends CrudConfig
     protected function makeTitleColumns($table)
     {
         $table->col('Title')
-            ->value('{'.$this->getTitleColumnName().'}');
+            ->value('{' . $this->getTitleColumnName() . '}');
     }
 
     /**
@@ -141,6 +141,11 @@ abstract class PagesConfig extends CrudConfig
         });
 
         $page->card(function ($form) {
+            $form->input('h1')
+                ->translatable($this->translatable())
+                ->hint('Kurz, aber aussagekräftig (5 Wörter oder weniger), Thematik der Headline entspricht der Thematik im Content')
+                ->title('H1');
+
             $this->makeContentBlock($form);
         });
 
