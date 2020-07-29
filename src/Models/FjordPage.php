@@ -11,7 +11,6 @@ use Fjord\Crud\Models\Traits\TrackEdits;
 use Fjord\Support\Facades\Config;
 use FjordPages\FjordPagesCollection;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Routing\Route;
 use Spatie\MediaLibrary\HasMedia as HasMediaContract;
 
@@ -244,7 +243,7 @@ class FjordPage extends FjordFormModel implements TranslatableContract, HasMedia
             return $this->getAttribute("t_{$key}");
         }
 
-        return $this->getAttribute($key);
+        return $this->attributes[$key];
     }
 
     /**
