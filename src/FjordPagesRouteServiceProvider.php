@@ -6,7 +6,6 @@ use Fjord\Config\ConfigHandler;
 use Fjord\Support\Facades\Config;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use SplFileInfo;
@@ -60,54 +59,7 @@ class FjordPagesRouteServiceProvider extends RouteServiceProvider
      */
     protected function makePagesRoute(ConfigHandler $config, $locale = null)
     {
-        $routeName = $this->routeName("pages.{$config->collection}", $locale);
-        $routePrefix = $this->routePrefix($config->appRoutePrefix($locale), $locale);
-
-        if ($config->collection != 'root') {
-            $route = Route::prefix($routePrefix)
-                ->get('/{slug}', $config->appController)
-                ->config($config->getKey())
-                ->name($routeName);
-        } else {
-            $routePrefix = $locale ? "/{$locale}" : '/';
-            $this->app->booted(function ($app) use ($config, $routeName, $routePrefix) {
-                $route = Route::prefix($routePrefix)->get('{slug}', $config->appController)
-                    ->config($config->getKey())
-                    ->name($routeName);
-            });
-        }
-    }
-
-    /**
-     * Get route prefix.
-     *
-     * @param  string      $prefix
-     * @param  string|null $locale
-     * @return string
-     */
-    protected function routePrefix(string $prefix, string $locale = null)
-    {
-        if (! $locale) {
-            return $prefix;
-        }
-
-        return "{$locale}/{$prefix}";
-    }
-
-    /**
-     * Get route name.
-     *
-     * @param  string      $name
-     * @param  string|null $locale
-     * @return string
-     */
-    protected function routeName(string $name, $locale = null)
-    {
-        if (! $locale) {
-            return $name;
-        }
-
-        return "{$locale}.{$name}";
+        $this->app['fjord.pages.routes']->make($config, $locale);
     }
 
     /**

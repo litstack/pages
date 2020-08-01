@@ -37,7 +37,21 @@ class FjordPagesServiceProvider extends ServiceProvider
 
         $this->registerCommands();
 
+        $this->registerFjordPagesRoutes();
+
         $this->app->register(FjordPagesRouteServiceProvider::class);
+    }
+
+    /**
+     * Register fjord pages routes.
+     *
+     * @return void
+     */
+    protected function registerFjordPagesRoutes()
+    {
+        $this->app->singleton('fjord.pages.routes', function ($app) {
+            return new FjordPagesRoutes($app);
+        });
     }
 
     /**
@@ -48,7 +62,7 @@ class FjordPagesServiceProvider extends ServiceProvider
     protected function registerPublishes()
     {
         $this->publishes([
-            __DIR__ . '/../migrations' => database_path('migrations'),
+            __DIR__.'/../migrations' => database_path('migrations'),
         ], 'migrations');
     }
 
