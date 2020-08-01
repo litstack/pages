@@ -12,6 +12,7 @@ use Fjord\Support\Facades\Config;
 use FjordPages\FjordPagesCollection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia as HasMediaContract;
 
 /**
@@ -73,6 +74,38 @@ class FjordPage extends FjordFormModel implements TranslatableContract, HasMedia
     public function getTranslationsArray(): array
     {
         return parent::getTranslationsArray();
+    }
+
+    /**
+     * Get current fjord page.
+     *
+     * @return self|null
+     */
+    public static function current()
+    {
+        $name = request()->route()->getName();
+
+        if (Str::startsWith($name, $locale = app()->getLocale().'.')) {
+            $name = Str::replaceFirst($locale, '', $name);
+        }
+
+        if (! $config = fjord()->config($name)) {
+            return;
+        }
+
+        $slug = request()->route()->parameter('slug');
+
+        $query = static::collection($config->collection);
+
+        if (! $config->translatable) {
+            $query->where('slug', $slug);
+        } else {
+            $query->whereHas('translation', function ($query) use ($slug) {
+                $query->where('locale', app()->getLocale())->where('t_slug', $slug);
+            });
+        }
+
+        return $query->first();
     }
 
     /**
