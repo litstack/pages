@@ -42,6 +42,7 @@ class FjordPagesRoutes
      */
     public function extend(Closure $closure)
     {
+        $this->extender[] = $closure;
     }
 
     /**
