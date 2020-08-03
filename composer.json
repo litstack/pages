@@ -1,25 +1,38 @@
 {
-    "name": "aw-studio/fjord-pages",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Lennart Carstens-Behrens",
-            "email": "lennart.carbe@gmail.com"
-        }
-    ],
-    "require": {
-        
-    },
-    "autoload": {
-        "psr-4": {
-            "FjordPages\\": "src/"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "FjordPages\\FjordPagesServiceProvider"
-            ]
-        }
-    }
+	"name": "aw-studio/fjord-pages",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Lennart Carstens-Behrens",
+			"email": "lennart.carbe@gmail.com"
+		}
+	],
+	"scripts": {
+		"test": "vendor/bin/phpunit"
+	},
+	"require": {
+		"orchestra/testbench": "^5.3"
+	},
+	"autoload": {
+		"psr-4": {
+			"FjordPages\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Tests\\": "tests/"
+		}
+	},
+	"extra": {
+		"laravel": {
+			"providers": [
+				"FjordPages\\FjordPagesServiceProvider"
+			]
+		}
+	},
+	"require-dev": {
+		"aw-studio/fjord": "^2.4",
+		"phpunit/phpunit": "^9.2",
+		"mockery/mockery": "^1.4"
+	}
 }

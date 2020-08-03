@@ -83,7 +83,11 @@ class FjordPage extends FjordFormModel implements TranslatableContract, HasMedia
      */
     public static function current()
     {
-        $name = request()->route()->getName();
+        if (! $route = request()->route()) {
+            return;
+        }
+
+        $name = $route->getName();
 
         if (Str::startsWith($name, $locale = app()->getLocale().'.')) {
             $name = Str::replaceFirst($locale, '', $name);
