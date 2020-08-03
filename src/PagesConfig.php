@@ -40,7 +40,7 @@ abstract class PagesConfig extends CrudConfig
      */
     public function fjordRoutePrefix()
     {
-        return 'pages/'.Str::slug($this->collection());
+        return 'pages/' . Str::slug($this->collection());
     }
 
     /**
@@ -95,7 +95,7 @@ abstract class PagesConfig extends CrudConfig
     {
         $this->makeTitleColumns($table);
 
-        $table->col('Url '.fa('external-link-alt'))
+        $table->col('Url ' . fa('external-link-alt'))
             ->value('<a href="{uri}" target="_blank">{uri}</a>')
             ->link(false);
     }
@@ -109,7 +109,7 @@ abstract class PagesConfig extends CrudConfig
     protected function makeTitleColumns($table)
     {
         $table->col('Title')
-            ->value('{'.$this->getTitleColumnName().'}');
+            ->value('{' . $this->getTitleColumnName() . '}');
     }
 
     /**
@@ -135,12 +135,31 @@ abstract class PagesConfig extends CrudConfig
                 ->translatable($this->translatable())
                 ->creationRules('required')
                 ->rules('min:2')
-                ->title('Title');
+                ->title('Title')
+                ->hint('Seitentitel in Fjord / Aus dem Titel wird auch der Slug für die URL generiert');
+
+            $form->image('page_image')
+                ->title('Page-Image')
+                ->hint('Kann z.B. als Vorschaubild oder Header-Bild eingesetzt werden.')
+                ->maxFiles(1)
+                ->expand()
+                ->width(6);
+    
+            $form->textarea('page_excerpt')
+                ->title('Page-Excerpt')
+                ->translatable($this->translatable())
+                ->hint('Vorschautext z.B. für Übersichtsseiten')
+                ->width(6);
 
             $this->prependForm($form);
         });
 
         $page->card(function ($form) {
+            $form->input('h1')
+            ->translatable($this->translatable())
+            ->hint('Kurz, aber aussagekräftig (5 Wörter oder weniger), Thematik der Headline entspricht der Thematik im Content')
+            ->title('H1');
+
             $this->makeContentBlock($form);
         });
 
