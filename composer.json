@@ -31,7 +31,6 @@
 		}
 	},
 	"require-dev": {
-		"aw-studio/fjord": "^2.4",
 		"phpunit/phpunit": "^9.2",
 		"mockery/mockery": "^1.4",
 		"fjuse/testbench": "^0.0.1"

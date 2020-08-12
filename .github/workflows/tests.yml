@@ -14,7 +14,7 @@ jobs:
             fail-fast: true
             matrix:
                 php: [7.4]
-                fjord: [2.4]
+                fjord: [2.4.*]
                 laravel: [7.*]
                 stability: [prefer-lowest, prefer-stable]
                 include:
@@ -23,6 +23,7 @@ jobs:
 
         name:
             P${{ matrix.php }} - L${{ matrix.laravel }} - FJ${{ matrix.fjord }}
+            - ${{ matrix.stability }}
 
         steps:
             - name: checkout
