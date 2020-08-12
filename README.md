@@ -1,5 +1,11 @@
 # Fjord Pages
 
+<p align="center">
+	<a href="https://github.com/aw-studio/fjord-pages/actions"><img src="https://github.com/aw-studio/fjord-pages/workflows/tests/badge.svg" alt="Build Status"></a>
+	<a href="https://packagist.org/packages/aw-studio/fjord-pages"><img src="https://img.shields.io/github/v/release/aw-studio/fjord-pages?color=%2383c2ff&label=stable" alt="Latest Stable Version"></a>
+	<a href="https://packagist.org/packages/aw-studio/fjord-pages"><img src="https://img.shields.io/github/license/aw-studio/fjord-pages?color=%2331c653" alt="License"></a>
+</p>
+
 Fjord pages help you to quickly add new pages to your fjord application. This
 turns your Fjord admin panel into a **cms**.
 
