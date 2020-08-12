@@ -2,26 +2,26 @@
 
 namespace Tests;
 
-use Fjord\Config\ConfigServiceProvider;
-use Fjord\FjordServiceProvider;
 use FjordPages\FjordPagesServiceProvider;
-use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use Fjuse\Testbench\TestCase as FjordTestCase;
 use ReflectionClass;
 use ReflectionProperty;
 
-class TestCase extends OrchestraTestCase
+class TestCase extends FjordTestCase
 {
     public function setUp(): void
     {
         parent::setUp();
+
+        $this->artisan('vendor:publish', [
+            '--provider' => FjordPagesServiceProvider::class,
+        ]);
     }
 
     protected function getPackageProviders($app)
     {
         return [
-            FjordServiceProvider::class,
             FjordPagesServiceProvider::class,
-            ConfigServiceProvider::class,
         ];
     }
 

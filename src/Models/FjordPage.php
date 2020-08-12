@@ -34,7 +34,7 @@ class FjordPage extends FjordFormModel implements TranslatableContract, HasMedia
      *
      * @var array
      */
-    protected $fillable = ['title', 'value'];
+    protected $fillable = ['title', 'value', 'collection', 'config_type'];
 
     /**
      * Translated attributes.
@@ -228,10 +228,10 @@ class FjordPage extends FjordFormModel implements TranslatableContract, HasMedia
         }
 
         if ($this->isTranslatable()) {
-            return "{$locale}.pages.{$this->config->collection}";
+            return "{$locale}.pages.{$this->collection}";
         }
 
-        return "pages.{$this->config->collection}";
+        return "pages.{$this->collection}";
     }
 
     /**
