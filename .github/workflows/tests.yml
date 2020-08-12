@@ -16,7 +16,7 @@ jobs:
                 php: [7.4]
                 fjord: [2.4.*]
                 laravel: [7.*]
-                stability: [prefer-lowest, prefer-stable]
+                stability: [prefer-stable]
                 include:
                     - laravel: 7.*
                       testbench: 5.*
