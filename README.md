@@ -23,6 +23,12 @@ Publish the migrations and migrate:
 php artisan vendor:publish --provider="FjordPages\FjordPagesServiceProvider" && php artisan migrate
 ```
 
+## License
+
+Bladesmith was created by
+**[Lennart Carstens-Behrens](https://twitter.com/lennartcb)** under the
+**[Sponsorware license](https://github.com/sponsorware/docs)**.
+
 ## Setup a pages collection
 
 With the artisan command fjord:pages a new pages collection is created. For
