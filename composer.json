@@ -30,7 +30,7 @@
 	"extra": {
 		"laravel": {
 			"providers": [
-				"Litsatck\\Pages\\PagesServiceProvider"
+				"Litstack\\Pages\\PagesServiceProvider"
 			]
 		},
 		"branch-alias": {
