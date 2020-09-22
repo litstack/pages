@@ -14,7 +14,7 @@ jobs:
             fail-fast: true
             matrix:
                 php: [7.4]
-                fjord: [2.4.*]
+                litstack: [3.*]
                 laravel: [7.*]
                 stability: [prefer-stable]
                 include:
@@ -22,8 +22,8 @@ jobs:
                       testbench: 5.*
 
         name:
-            P${{ matrix.php }} - L${{ matrix.laravel }} - FJ${{ matrix.fjord }}
-            - ${{ matrix.stability }}
+            P${{ matrix.php }} - L${{ matrix.laravel }} - LIT${{ matrix.litstack
+            }} - ${{ matrix.stability }}
 
         steps:
             - name: checkout
@@ -49,7 +49,7 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "aw-studio/fjord:${{ matrix.fjord }}" --no-interaction --no-update
+                  composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "litstack/litstack:${{ matrix.litstack }}" --no-interaction --no-update
                   composer update --${{ matrix.stability }} --prefer-dist --no-suggest
 
             - name: Execute tests
