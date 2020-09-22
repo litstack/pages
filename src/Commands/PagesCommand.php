@@ -1,11 +1,11 @@
 <?php
 
-namespace FjordPages\Commands;
+namespace Litstack\Pages\Commands;
 
-use Illuminate\Support\Str;
 use Fjord\Commands\GeneratorCommand;
+use Illuminate\Support\Str;
 
-class FjordPagesCommand extends GeneratorCommand
+class PagesCommand extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.
@@ -49,13 +49,13 @@ class FjordPagesCommand extends GeneratorCommand
      */
     protected function makeController()
     {
-        $this->call("fjord:pages-controller", [
-            "name" => $this->getControllerClass(),
+        $this->call('fjord:pages-controller', [
+            'name' => $this->getControllerClass(),
         ]);
 
-        $this->call("fjord:pages-controller", [
-            "name" => $this->getControllerClass(),
-            "--app" => true
+        $this->call('fjord:pages-controller', [
+            'name'  => $this->getControllerClass(),
+            '--app' => true,
         ]);
     }
 
@@ -66,7 +66,7 @@ class FjordPagesCommand extends GeneratorCommand
      */
     public function getStub()
     {
-        return __DIR__ . '/../../stubs/page.config.stub';
+        return __DIR__.'/../../stubs/page.config.stub';
     }
 
     /**
@@ -84,16 +84,16 @@ class FjordPagesCommand extends GeneratorCommand
      *
      * Remove the base controller import if we are already in base namespace.
      *
-     * @param  string  $name
+     * @param  string $name
      * @return string
      */
     protected function buildClass($name)
     {
         $replace = [
             'DummyCollectionRouteName' => Str::slug($this->collectionName),
-            'DummyController' => $this->getControllerClass(),
-            'DummyPageName' => Str::singular($this->collectionClass),
-            'DummyPagesName' => Str::plural($this->collectionClass)
+            'DummyController'          => $this->getControllerClass(),
+            'DummyPageName'            => Str::singular($this->collectionClass),
+            'DummyPagesName'           => Str::plural($this->collectionClass),
         ];
 
         return str_replace(
@@ -111,7 +111,7 @@ class FjordPagesCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . "\\Config\\Pages";
+        return $rootNamespace.'\\Config\\Pages';
     }
 
     /**
@@ -121,18 +121,18 @@ class FjordPagesCommand extends GeneratorCommand
      */
     protected function getControllerClass()
     {
-        return $this->collectionClass . 'Controller';
+        return $this->collectionClass.'Controller';
     }
 
     /**
      * Parse the class name and format according to the root namespace.
      *
-     * @param  string  $name
+     * @param  string $name
      * @return string
      */
     protected function qualifyClass($name)
     {
-        if (!Str::endsWith($name, 'Config')) {
+        if (! Str::endsWith($name, 'Config')) {
             $name .= 'Config';
         }
 
@@ -147,7 +147,7 @@ class FjordPagesCommand extends GeneratorCommand
     protected function setCollectionName()
     {
         $collectionName = $this->argument('collection');
-        if (!$collectionName) {
+        if (! $collectionName) {
             $collectionName = $this->ask('Enter the pages collection name (snake_case)');
         }
 

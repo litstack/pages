@@ -1,13 +1,13 @@
 <?php
 
-namespace FjordPages\Models;
+namespace Litstack\Pages\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Fjord\Crud\Models\Traits\TrackEdits;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-class FjordPageTranslation extends Model
+class PageTranslation extends Model
 {
     use Sluggable, TrackEdits;
 

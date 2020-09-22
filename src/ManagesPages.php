@@ -1,11 +1,11 @@
 <?php
 
-namespace FjordPages;
+namespace Litstack\Pages;
 
-use FjordPages\Models\FjordPage;
 use Illuminate\Support\Str;
+use Litstack\Pages\Models\FjordPage;
 
-trait ManagesFjordPages
+trait ManagesPages
 {
     /**
      * Get fjord page.

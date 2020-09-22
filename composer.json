@@ -13,9 +13,14 @@
 	"require": {
 		"orchestra/testbench": "^5.3"
 	},
+	"require-dev": {
+		"phpunit/phpunit": "^9.2",
+		"mockery/mockery": "^1.4",
+		"litstack/rehearsal": "^1.0"
+	},
 	"autoload": {
 		"psr-4": {
-			"FjordPages\\": "src/"
+			"Litsatck\\Pages\\": "src/"
 		}
 	},
 	"autoload-dev": {
@@ -26,13 +31,13 @@
 	"extra": {
 		"laravel": {
 			"providers": [
-				"FjordPages\\FjordPagesServiceProvider"
+				"Litsatck\\Pages\\PagesServiceProvider"
 			]
+		},
+		"branch-alias": {
+			"dev-master": "1.x-dev"
 		}
 	},
-	"require-dev": {
-		"phpunit/phpunit": "^9.2",
-		"mockery/mockery": "^1.4",
-		"fjuse/testbench": "^0.0.1"
-	}
+	"minimum-stability": "dev",
+	"prefer-stable": true
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace FjordPages;
+namespace Litstack\Pages;
 
 use Fjord\Config\ConfigHandler;
 use Fjord\Support\Facades\Config;
@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 use ReflectionClass;
 use SplFileInfo;
 
-class FjordPagesRouteServiceProvider extends RouteServiceProvider
+class Litstack\PagesRouteServiceProvider extends RouteServiceProvider
 {
     /**
      * Map fjord pages routes.

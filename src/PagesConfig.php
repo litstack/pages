@@ -1,12 +1,12 @@
 <?php
 
-namespace FjordPages;
+namespace Litstack\Pages;
 
 use Fjord\Crud\Config\CrudConfig;
 use Fjord\Crud\CrudIndex;
 use Fjord\Crud\CrudShow;
 use Fjord\Crud\Fields\Block\Repeatables;
-use FjordPages\Models\FjordPage;
+use Litstack\Pages\Models\FjordPage;
 use Illuminate\Support\Str;
 
 abstract class PagesConfig extends CrudConfig

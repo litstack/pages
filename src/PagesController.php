@@ -1,12 +1,12 @@
 <?php
 
-namespace FjordPages;
+namespace Litstack\Pages;
 
-use FjordPages\Models\FjordPage;
-use Illuminate\Database\Eloquent\Builder;
 use Fjord\Crud\Controllers\CrudController;
+use Illuminate\Database\Eloquent\Builder;
+use Litstack\Pages\Models\FjordPage;
 
-class FjordPagesController extends CrudController
+class PagesController extends CrudController
 {
     /**
      * The Model class.
@@ -16,9 +16,9 @@ class FjordPagesController extends CrudController
     protected $model = FjordPage::class;
 
     /**
-     * Fill model on store
+     * Fill model on store.
      *
-     * @param Page $model
+     * @param  Page $model
      * @return void
      */
     public function fillOnStore($model)

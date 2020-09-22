@@ -1,10 +1,10 @@
 <?php
 
-namespace FjordPages;
+namespace Litstack\Pages;
 
 use Illuminate\Support\ServiceProvider;
 
-class FjordPagesServiceProvider extends ServiceProvider
+class PagesServiceProvider extends ServiceProvider
 {
     /**
      * Commands to be registered.
@@ -12,8 +12,8 @@ class FjordPagesServiceProvider extends ServiceProvider
      * @var array
      */
     protected $commands = [
-        Commands\FjordPagesCommand::class,
-        Commands\FjordPagesControllerCommand::class,
+        Commands\Litstack\PagesCommand::class,
+        Commands\Litstack\PagesControllerCommand::class,
     ];
 
     /**
@@ -37,9 +37,9 @@ class FjordPagesServiceProvider extends ServiceProvider
 
         $this->registerCommands();
 
-        $this->registerFjordPagesRoutes();
+        $this->registerLitstack\PagesRoutes();
 
-        $this->app->register(FjordPagesRouteServiceProvider::class);
+        $this->app->register(Litstack\PagesRouteServiceProvider::class);
     }
 
     /**
@@ -47,10 +47,10 @@ class FjordPagesServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function registerFjordPagesRoutes()
+    protected function registerLitstack\PagesRoutes()
     {
         $this->app->singleton('fjord.pages.routes', function ($app) {
-            return new FjordPagesRoutes($app);
+            return new Litstack\PagesRoutes($app);
         });
     }
 

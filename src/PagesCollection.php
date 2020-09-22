@@ -1,6 +1,6 @@
 <?php
 
-namespace FjordPages;
+namespace Litstack\Pages;
 
 use Fjord\Crud\Fields\Route\RouteCollection;
 use Illuminate\Database\Eloquent\Collection;

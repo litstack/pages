@@ -1,11 +1,11 @@
 <?php
 
-namespace FjordPages\Commands;
+namespace Litstack\Pages\Commands;
 
-use Illuminate\Support\Str;
 use Fjord\Commands\GeneratorCommand;
+use Illuminate\Support\Str;
 
-class FjordPagesControllerCommand extends GeneratorCommand
+class PagesControllerCommand extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.
@@ -65,10 +65,10 @@ class FjordPagesControllerCommand extends GeneratorCommand
     protected function getStub()
     {
         if ($this->option('app')) {
-            return __DIR__ . '/../../stubs/controller.page.app.stub';
+            return __DIR__.'/../../stubs/controller.page.app.stub';
         }
 
-        return __DIR__ . '/../../stubs/controller.page.fjord.stub';
+        return __DIR__.'/../../stubs/controller.page.fjord.stub';
     }
 
     /**
@@ -76,7 +76,7 @@ class FjordPagesControllerCommand extends GeneratorCommand
      *
      * Remove the base controller import if we are already in base namespace.
      *
-     * @param  string  $name
+     * @param  string $name
      * @return string
      */
     protected function buildClass($name)
@@ -93,7 +93,7 @@ class FjordPagesControllerCommand extends GeneratorCommand
     /**
      * Build crud controller replacements.
      *
-     * @param string $name
+     * @param  string $name
      * @return array
      */
     protected function buildReplacements(string $name)
@@ -103,19 +103,19 @@ class FjordPagesControllerCommand extends GeneratorCommand
 
         return [
             'DummyModelClass' => $modelClassName,
-            'DummyTableName' => $tableName,
+            'DummyTableName'  => $tableName,
         ];
     }
 
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
+     * @param  string $rootNamespace
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . "\Controllers\Pages";
+        return $rootNamespace."\Controllers\Pages";
     }
 
     /**
@@ -126,7 +126,7 @@ class FjordPagesControllerCommand extends GeneratorCommand
     protected function rootNamespace()
     {
         if ($this->option('app')) {
-            return "App\\Http\\";
+            return 'App\\Http\\';
         }
 
         return 'FjordApp\\';

@@ -1,15 +1,13 @@
 <?php
 
-namespace FjordPages\Models;
+namespace Litstack\Pages\Models;
 
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Fjord\Config\ConfigHandler;
-use Fjord\Crud\Models\FjordFormModel;
 use Fjord\Crud\Models\Traits\TrackEdits;
 use Fjord\Support\Facades\Config;
-use FjordPages\FjordPagesCollection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Str;
@@ -18,7 +16,7 @@ use Spatie\MediaLibrary\HasMedia as HasMediaContract;
 /**
  * @method static void collection(string $collection)
  */
-class FjordPage extends FjordFormModel implements TranslatableContract, HasMediaContract
+class Page extends LitFormModel implements TranslatableContract, HasMediaContract
 {
     use Sluggable, TrackEdits, Translatable;
 
@@ -154,14 +152,14 @@ class FjordPage extends FjordFormModel implements TranslatableContract, HasMedia
     }
 
     /**
-     * Create a new FjordPagesCollection instance.
+     * Create a new Litstack\PagesCollection instance.
      *
-     * @param  array                $models
-     * @return FjordPagesCollection
+     * @param  array                    $models
+     * @return Litstack\PagesCollection
      */
     public function newCollection(array $models = [])
     {
-        return new FjordPagesCollection($models);
+        return new Litstack\PagesCollection($models);
     }
 
     /**

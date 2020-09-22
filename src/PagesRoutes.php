@@ -1,6 +1,6 @@
 <?php
 
-namespace FjordPages;
+namespace Litstack\Pages;
 
 use Closure;
 use Fjord\Config\ConfigHandler;
@@ -24,7 +24,7 @@ class FjordPagesRoutes
     protected $app;
 
     /**
-     * Create new FjordPagesRoutes instance.
+     * Create new Litstack\PagesRoutes instance.
      *
      * @param  Application $app
      * @return void
