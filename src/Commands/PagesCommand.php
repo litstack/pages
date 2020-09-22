@@ -2,7 +2,7 @@
 
 namespace Litstack\Pages\Commands;
 
-use Fjord\Commands\GeneratorCommand;
+use Ignite\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
 class PagesCommand extends GeneratorCommand
@@ -12,7 +12,7 @@ class PagesCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature = 'fjord:pages {collection?}';
+    protected $signature = 'lit:pages {collection?}';
 
     /**
      * The console command description.
@@ -49,11 +49,11 @@ class PagesCommand extends GeneratorCommand
      */
     protected function makeController()
     {
-        $this->call('fjord:pages-controller', [
+        $this->call('lit:pages-controller', [
             'name' => $this->getControllerClass(),
         ]);
 
-        $this->call('fjord:pages-controller', [
+        $this->call('lit:pages-controller', [
             'name'  => $this->getControllerClass(),
             '--app' => true,
         ]);

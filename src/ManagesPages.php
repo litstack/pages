@@ -3,19 +3,18 @@
 namespace Litstack\Pages;
 
 use Illuminate\Support\Str;
-use Litstack\Pages\Models\FjordPage;
 
 trait ManagesPages
 {
     /**
-     * Get fjord page.
+     * Get listack page.
      *
-     * @param  string    $slug
-     * @return FjordPage
+     * @param  string $slug
+     * @return Page
      */
-    protected function getFjordPage(string $slug): FjordPage
+    protected function getLitstackPage(string $slug): Page
     {
-        $model = FjordPage::class;
+        $model = Page::class;
 
         if (! $config = app('request')->route()->getConfig()) {
             abort(404);

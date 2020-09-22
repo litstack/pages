@@ -3,11 +3,11 @@
 namespace Litstack\Pages;
 
 use Closure;
-use Fjord\Config\ConfigHandler;
+use Ignite\Config\ConfigHandler;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 
-class FjordPagesRoutes
+class PagesRoutes
 {
     /**
      * Extender.

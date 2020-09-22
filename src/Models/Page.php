@@ -4,13 +4,14 @@ namespace Litstack\Pages\Models;
 
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
-use Cviebrock\EloquentSluggable\Sluggable;
-use Fjord\Config\ConfigHandler;
-use Fjord\Crud\Models\Traits\TrackEdits;
-use Fjord\Support\Facades\Config;
+use Ignite\Config\ConfigHandler;
+use Ignite\Crud\Models\LitFormModel;
+use Ignite\Crud\Models\Traits\Sluggable;
+use Ignite\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Str;
+use Litstack\Pages\PagesCollection;
 use Spatie\MediaLibrary\HasMedia as HasMediaContract;
 
 /**
@@ -18,14 +19,28 @@ use Spatie\MediaLibrary\HasMedia as HasMediaContract;
  */
 class Page extends LitFormModel implements TranslatableContract, HasMediaContract
 {
-    use Sluggable, TrackEdits, Translatable;
+    use Sluggable, Translatable;
+
+    /**
+     * Database table name.
+     *
+     * @var string
+     */
+    public $table = 'lit_pages';
+
+    /**
+     * Translation foreign key.
+     *
+     * @var string
+     */
+    protected $translationForeignKey = 'lit_page_id';
 
     /**
      * Translation model name.
      *
      * @var string
      */
-    public $translationModel = FjordPageTranslation::class;
+    public $translationModel = PageTranslation::class;
 
     /**
      * Fillable attributes.
@@ -75,7 +90,7 @@ class Page extends LitFormModel implements TranslatableContract, HasMediaContrac
     }
 
     /**
-     * Get current fjord page.
+     * Get current litstack page.
      *
      * @return self|null
      */
@@ -91,7 +106,7 @@ class Page extends LitFormModel implements TranslatableContract, HasMediaContrac
             $name = Str::replaceFirst($locale, '', $name);
         }
 
-        if (! $config = fjord()->config($name)) {
+        if (! $config = lit()->config($name)) {
             return;
         }
 
@@ -152,14 +167,14 @@ class Page extends LitFormModel implements TranslatableContract, HasMediaContrac
     }
 
     /**
-     * Create a new Litstack\PagesCollection instance.
+     * Create a new PagesCollection instance.
      *
-     * @param  array                    $models
-     * @return Litstack\PagesCollection
+     * @param  array           $models
+     * @return PagesCollection
      */
     public function newCollection(array $models = [])
     {
-        return new Litstack\PagesCollection($models);
+        return new PagesCollection($models);
     }
 
     /**

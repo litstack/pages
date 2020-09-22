@@ -2,10 +2,10 @@
 
 namespace Litstack\Pages;
 
-use Fjord\Crud\Fields\Route\RouteCollection;
+use Ignite\Crud\Fields\Route\RouteCollection;
 use Illuminate\Database\Eloquent\Collection;
 
-class FjordPagesCollection extends Collection
+class PagesCollection extends Collection
 {
     /**
      * Register pages to route collection.

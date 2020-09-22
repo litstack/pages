@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFjordPagesTable extends Migration
+class CreateLitPagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateFjordPagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('fjord_pages', function (Blueprint $table) {
+        Schema::create('lit_pages', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->string('collection');
@@ -27,17 +27,12 @@ class CreateFjordPagesTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('fjord_page_translations', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('fjord_page_id')->unsigned();
-            $table->string('locale')->index();
+        Schema::create('lit_page_translations', function (Blueprint $table) {
+            $table->translates('lit_pages');
 
             $table->string('t_title')->nullable();
             $table->string('t_slug')->nullable();
             $table->text('value')->nullable();
-
-            $table->unique(['fjord_page_id', 'locale']);
-            $table->foreign('fjord_page_id')->references('id')->on('fjord_pages')->onDelete('cascade');
         });
     }
 
@@ -48,7 +43,7 @@ class CreateFjordPagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fjord_page_translations');
-        Schema::dropIfExists('fjord_pages');
+        Schema::dropIfExists('lit_page_translations');
+        Schema::dropIfExists('lit_pages');
     }
 }

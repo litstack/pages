@@ -2,18 +2,18 @@
 
 namespace Litstack\Pages;
 
-use Fjord\Config\ConfigHandler;
-use Fjord\Support\Facades\Config;
+use Ignite\Config\ConfigHandler;
+use Ignite\Support\Facades\Config;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use SplFileInfo;
 
-class Litstack\PagesRouteServiceProvider extends RouteServiceProvider
+class PagesRouteServiceProvider extends RouteServiceProvider
 {
     /**
-     * Map fjord pages routes.
+     * Map litstack pages routes.
      *
      * @return void
      */
@@ -59,7 +59,7 @@ class Litstack\PagesRouteServiceProvider extends RouteServiceProvider
      */
     protected function makePagesRoute(ConfigHandler $config, $locale = null)
     {
-        $this->app['fjord.pages.routes']->make($config, $locale);
+        $this->app['lit.pages.routes']->make($config, $locale);
     }
 
     /**
@@ -69,11 +69,11 @@ class Litstack\PagesRouteServiceProvider extends RouteServiceProvider
      */
     protected function mapPagesRoutes()
     {
-        if (! fjord()->installed()) {
+        if (! lit()->installed()) {
             return;
         }
 
-        $files = File::allFiles(fjord_config_path());
+        $files = File::allFiles(lit_config_path());
 
         foreach ($files as $file) {
             if (! $this->isValidPagesConfig($file)) {
@@ -106,7 +106,7 @@ class Litstack\PagesRouteServiceProvider extends RouteServiceProvider
             return false;
         }
 
-        $namespace = str_replace('/', '\\', 'FjordApp'.explode('fjord/app', str_replace('.php', '', $file))[1]);
+        $namespace = str_replace('/', '\\', 'Lit'.explode('lit/app', str_replace('.php', '', $file))[1]);
         $reflection = new ReflectionClass($namespace);
 
         if (! $reflection->getParentClass()) {

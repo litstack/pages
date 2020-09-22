@@ -2,14 +2,20 @@
 
 namespace Litstack\Pages\Models;
 
-use Cviebrock\EloquentSluggable\Sluggable;
-use Fjord\Crud\Models\Traits\TrackEdits;
+use Ignite\Crud\Models\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class PageTranslation extends Model
 {
-    use Sluggable, TrackEdits;
+    use Sluggable;
+
+    /**
+     * Database table name.
+     *
+     * @var string
+     */
+    public $table = 'lit_page_translations';
 
     /**
      * Timestamps.
@@ -70,7 +76,7 @@ class PageTranslation extends Model
      */
     public function page()
     {
-        return $this->belongsTo(FjordPage::class, 'fjord_page_id');
+        return $this->belongsTo(Page::class, 'lit_page_id');
     }
 
     /**

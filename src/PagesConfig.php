@@ -2,12 +2,12 @@
 
 namespace Litstack\Pages;
 
-use Fjord\Crud\Config\CrudConfig;
-use Fjord\Crud\CrudIndex;
-use Fjord\Crud\CrudShow;
-use Fjord\Crud\Fields\Block\Repeatables;
-use Litstack\Pages\Models\FjordPage;
+use Ignite\Crud\Config\CrudConfig;
+use Ignite\Crud\CrudIndex;
+use Ignite\Crud\CrudShow;
+use Ignite\Crud\Fields\Block\Repeatables;
 use Illuminate\Support\Str;
+use Litstack\Pages\Models\Page;
 
 abstract class PagesConfig extends CrudConfig
 {
@@ -16,7 +16,7 @@ abstract class PagesConfig extends CrudConfig
      *
      * @var string
      */
-    public $model = FjordPage::class;
+    public $model = Page::class;
 
     /**
      * Application route prefix.
@@ -34,23 +34,23 @@ abstract class PagesConfig extends CrudConfig
     abstract public function repeatables(Repeatables $rep);
 
     /**
-     * Page route prefix in the fjord backend.
+     * Page route prefix in the listack backend.
      *
      * @return string
      */
-    public function fjordRoutePrefix()
+    public function litstackRoutePrefix()
     {
-        return 'pages/' . Str::slug($this->collection());
+        return 'pages/'.Str::slug($this->collection());
     }
 
     /**
-     * Page route prefix in the fjord backend.
+     * Page route prefix in the litstack backend.
      *
      * @return string
      */
     public function routePrefix()
     {
-        return $this->fjordRoutePrefix();
+        return $this->litstackRoutePrefix();
     }
 
     /**
@@ -60,7 +60,7 @@ abstract class PagesConfig extends CrudConfig
      */
     public function translatable()
     {
-        return fjord()->isAppTranslatable();
+        return lit()->isAppTranslatable();
     }
 
     /**
@@ -76,7 +76,7 @@ abstract class PagesConfig extends CrudConfig
     /**
      * Build index table.
      *
-     * @param  \Fjord\Crud\CrudIndex $table
+     * @param  \Ignite\Crud\CrudIndex $table
      * @return void
      */
     public function index(CrudIndex $container)
@@ -88,14 +88,14 @@ abstract class PagesConfig extends CrudConfig
     /**
      * Build index table columnds.
      *
-     * @param  \Fjord\Vue\Crud\CrudTable $table
+     * @param  \Ignite\Vue\Crud\CrudTable $table
      * @return void
      */
     public function indexTableColumns($table)
     {
         $this->makeTitleColumns($table);
 
-        $table->col('Url ' . fa('external-link-alt'))
+        $table->col('Url '.fa('external-link-alt'))
             ->value('<a href="{uri}" target="_blank">{uri}</a>')
             ->link(false);
     }
@@ -103,13 +103,13 @@ abstract class PagesConfig extends CrudConfig
     /**
      * Make title column.
      *
-     * @param  \Fjord\Vue\Crud\CrudTable $table
+     * @param  \Ignite\Vue\Crud\CrudTable $table
      * @return void
      */
     protected function makeTitleColumns($table)
     {
         $table->col('Title')
-            ->value('{' . $this->getTitleColumnName() . '}');
+            ->value('{'.$this->getTitleColumnName().'}');
     }
 
     /**
@@ -125,7 +125,7 @@ abstract class PagesConfig extends CrudConfig
     /**
      * Setup create and edit form.
      *
-     * @param  \Fjord\Crud\CrudShow $page
+     * @param  \Ignite\Crud\CrudShow $page
      * @return void
      */
     public function show(CrudShow $page)
@@ -136,7 +136,7 @@ abstract class PagesConfig extends CrudConfig
                 ->creationRules('required')
                 ->rules('min:2')
                 ->title('Title')
-                ->hint('Seitentitel in Fjord / Aus dem Titel wird auch der Slug für die URL generiert');
+                ->hint('Seitentitel in Litstack / Aus dem Titel wird auch der Slug für die URL generiert');
 
             $form->image('page_image')
                 ->title('Page-Image')
@@ -144,7 +144,7 @@ abstract class PagesConfig extends CrudConfig
                 ->maxFiles(1)
                 ->expand()
                 ->width(6);
-    
+
             $form->textarea('page_excerpt')
                 ->title('Page-Excerpt')
                 ->translatable($this->translatable())
@@ -156,9 +156,9 @@ abstract class PagesConfig extends CrudConfig
 
         $page->card(function ($form) {
             $form->input('h1')
-            ->translatable($this->translatable())
-            ->hint('Kurz, aber aussagekräftig (5 Wörter oder weniger), Thematik der Headline entspricht der Thematik im Content')
-            ->title('H1');
+                ->translatable($this->translatable())
+                ->hint('Kurz, aber aussagekräftig (5 Wörter oder weniger), Thematik der Headline entspricht der Thematik im Content')
+                ->title('H1');
 
             $this->makeContentBlock($form);
         });

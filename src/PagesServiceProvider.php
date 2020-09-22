@@ -12,8 +12,8 @@ class PagesServiceProvider extends ServiceProvider
      * @var array
      */
     protected $commands = [
-        Commands\Litstack\PagesCommand::class,
-        Commands\Litstack\PagesControllerCommand::class,
+        Commands\PagesCommand::class,
+        Commands\PagesControllerCommand::class,
     ];
 
     /**
@@ -37,20 +37,20 @@ class PagesServiceProvider extends ServiceProvider
 
         $this->registerCommands();
 
-        $this->registerLitstack\PagesRoutes();
+        $this->registerPagesRoutes();
 
-        $this->app->register(Litstack\PagesRouteServiceProvider::class);
+        $this->app->register(PagesRouteServiceProvider::class);
     }
 
     /**
-     * Register fjord pages routes.
+     * Register litstack pages routes.
      *
      * @return void
      */
-    protected function registerLitstack\PagesRoutes()
+    protected function registerPagesRoutes()
     {
-        $this->app->singleton('fjord.pages.routes', function ($app) {
-            return new Litstack\PagesRoutes($app);
+        $this->app->singleton('lit.pages.routes', function ($app) {
+            return new PagesRoutes($app);
         });
     }
 

@@ -2,21 +2,21 @@
 
 namespace Tests;
 
-use Fjord\Support\Facades\Config;
-use FjordPages\FjordPagesCollection;
-use FjordPages\Models\FjordPage;
+use Ignite\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\URL;
+use Litstack\Pages\Models\Page;
+use Litstack\Pages\PagesCollection;
 use Mockery as m;
 
-class FjordPageModelTest extends TestCase
+class PageModelTest extends TestCase
 {
     /** @test */
     public function test_current_method_doesnt_fail_when_no_route_exists()
     {
         $this->assertNull(
-            FjordPage::current()
+            Page::current()
         );
     }
 
@@ -28,13 +28,13 @@ class FjordPageModelTest extends TestCase
 
         Request::setRouteResolver(fn () => $route);
 
-        FjordPage::current();
+        Page::current();
     }
 
     /** @test */
     public function it_has_required_fillable_attributes()
     {
-        $fillable = (new FjordPage)->getFillable();
+        $fillable = (new Page)->getFillable();
         $this->assertContains('title', $fillable);
         $this->assertContains('value', $fillable);
         $this->assertContains('collection', $fillable);
@@ -44,7 +44,7 @@ class FjordPageModelTest extends TestCase
     /** @test */
     public function test_isTranslatable_method_is_false_by_default()
     {
-        $page = new FjordPage();
+        $page = new Page();
         $this->assertFalse($page->isTranslatable());
     }
 
@@ -54,7 +54,7 @@ class FjordPageModelTest extends TestCase
         $config = m::mock('config');
         $config->translatable = 'foo';
         Config::partialMock()->shouldReceive('get')->andReturn($config);
-        $page = new FjordPage();
+        $page = new Page();
         $page->config_type = static::class;
         $this->assertSame('foo', $page->isTranslatable());
     }
@@ -62,7 +62,7 @@ class FjordPageModelTest extends TestCase
     /** @test */
     public function test_non_translatable_title_attribute()
     {
-        $page = new FjordPage(['title' => 'foo']);
+        $page = new Page(['title' => 'foo']);
         $this->assertSame('foo', $page->title);
     }
 
@@ -73,7 +73,7 @@ class FjordPageModelTest extends TestCase
         $config = m::mock('config');
         $config->translatable = true;
         Config::partialMock()->shouldReceive('get')->andReturn($config);
-        $page = new FjordPage(['title' => 'foo', 'en' => ['t_title' => 'bar']]);
+        $page = new Page(['title' => 'foo', 'en' => ['t_title' => 'bar']]);
         $page->config_type = static::class;
         $this->assertSame('bar', $page->title);
     }
@@ -81,7 +81,7 @@ class FjordPageModelTest extends TestCase
     /** @test */
     public function test_non_translatable_slug_attribute()
     {
-        $page = new FjordPage();
+        $page = new Page();
         $page->slug = 'foo';
         $this->assertSame('foo', $page->slug);
     }
@@ -93,7 +93,7 @@ class FjordPageModelTest extends TestCase
         $config = m::mock('config');
         $config->translatable = true;
         Config::partialMock()->shouldReceive('get')->andReturn($config);
-        $page = new FjordPage(['en' => []]);
+        $page = new Page(['en' => []]);
         $page->slug = 'foo';
         $page->t_slug = 'bar';
         $page->config_type = static::class;
@@ -104,9 +104,9 @@ class FjordPageModelTest extends TestCase
     public function test_unique_slug_constraints()
     {
         $this->artisan('migrate:fresh');
-        $page1 = FjordPage::create(['title' => 'title', 'collection' => '', 'config_type' => 'foo']);
-        $page2 = FjordPage::create(['title' => 'title', 'collection' => '', 'config_type' => 'foo']);
-        $page3 = FjordPage::create(['title' => 'title', 'collection' => '', 'config_type' => 'bar']);
+        $page1 = Page::create(['title' => 'title', 'collection' => '', 'config_type' => 'foo']);
+        $page2 = Page::create(['title' => 'title', 'collection' => '', 'config_type' => 'foo']);
+        $page3 = Page::create(['title' => 'title', 'collection' => '', 'config_type' => 'bar']);
         $this->assertNotEquals($page1->slug, $page2->slug);
         $this->assertEquals($page1->slug, $page3->slug);
     }
@@ -115,19 +115,19 @@ class FjordPageModelTest extends TestCase
     public function test_collection_is_FjordPagesCollection_instance()
     {
         $this->artisan('migrate:fresh');
-        $this->assertInstanceOf(FjordPagesCollection::class, FjordPage::all());
+        $this->assertInstanceOf(PagesCollection::class, Page::all());
     }
 
     /** @test */
     public function test_content_relation_method()
     {
-        $this->assertInstanceOf(Relation::class, (new FjordPage)->content());
+        $this->assertInstanceOf(Relation::class, (new Page)->content());
     }
 
     /** @test */
     public function test_getRouteName_method()
     {
-        $this->assertSame('pages.foo', (new FjordPage(['collection' => 'foo']))->getRouteName());
+        $this->assertSame('pages.foo', (new Page(['collection' => 'foo']))->getRouteName());
     }
 
     /** @test */
@@ -136,7 +136,7 @@ class FjordPageModelTest extends TestCase
         $config = m::mock('config');
         $config->translatable = true;
         Config::partialMock()->shouldReceive('get')->andReturn($config);
-        $page = new FjordPage(['collection' => 'foo']);
+        $page = new Page(['collection' => 'foo']);
         $page->config_type = static::class;
 
         $this->app->setLocale('en');
@@ -150,7 +150,7 @@ class FjordPageModelTest extends TestCase
     {
         $this->artisan('migrate:fresh');
         URL::partialMock()->shouldReceive('route')->andReturn('foo');
-        $page = FjordPage::create(['title' => 'bar', 'collection' => '', 'config_type' => '']);
+        $page = Page::create(['title' => 'bar', 'collection' => '', 'config_type' => '']);
         $this->assertSame('foo', $page->getRoute());
     }
 
@@ -159,7 +159,7 @@ class FjordPageModelTest extends TestCase
     {
         $this->artisan('migrate:fresh');
         URL::partialMock()->shouldReceive('route')->andReturn('foo');
-        $page = FjordPage::create(['title' => 'bar', 'collection' => '', 'config_type' => '']);
+        $page = Page::create(['title' => 'bar', 'collection' => '', 'config_type' => '']);
         $this->assertSame('foo', $page->uri);
     }
 }

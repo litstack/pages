@@ -2,26 +2,26 @@
 
 namespace Tests;
 
-use FjordPages\FjordPagesServiceProvider;
-use Fjuse\Testbench\TestCase as FjordTestCase;
+use Litstack\Pages\PagesServiceProvider;
+use Litstack\Rehearsal\TestCase as LitstackTestCase;
 use ReflectionClass;
 use ReflectionProperty;
 
-class TestCase extends FjordTestCase
+class TestCase extends LitstackTestCase
 {
     public function setUp(): void
     {
         parent::setUp();
 
         $this->artisan('vendor:publish', [
-            '--provider' => FjordPagesServiceProvider::class,
+            '--provider' => PagesServiceProvider::class,
         ]);
     }
 
     protected function getPackageProviders($app)
     {
         return [
-            FjordPagesServiceProvider::class,
+            PagesServiceProvider::class,
         ];
     }
 

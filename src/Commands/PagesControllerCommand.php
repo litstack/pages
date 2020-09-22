@@ -2,7 +2,7 @@
 
 namespace Litstack\Pages\Commands;
 
-use Fjord\Commands\GeneratorCommand;
+use Ignite\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
 class PagesControllerCommand extends GeneratorCommand
@@ -12,7 +12,7 @@ class PagesControllerCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature = 'fjord:pages-controller {name}
+    protected $signature = 'lit:pages-controller {name}
                             {--app}';
 
     /**
@@ -20,7 +20,7 @@ class PagesControllerCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'This will create a pages controller to the FjordApp namespace.';
+    protected $description = 'This will create a pages controller to the Lit namespace.';
 
     /**
      * The type of class being generated.
@@ -54,7 +54,7 @@ class PagesControllerCommand extends GeneratorCommand
             return;
         }
 
-        $this->type == 'Fjord pages controller';
+        $this->type == 'Lit pages controller';
     }
 
     /**
@@ -68,7 +68,7 @@ class PagesControllerCommand extends GeneratorCommand
             return __DIR__.'/../../stubs/controller.page.app.stub';
         }
 
-        return __DIR__.'/../../stubs/controller.page.fjord.stub';
+        return __DIR__.'/../../stubs/controller.page.lit.stub';
     }
 
     /**
@@ -115,7 +115,7 @@ class PagesControllerCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace."\Controllers\Pages";
+        return $rootNamespace."\Http\Controllers\Pages";
     }
 
     /**
@@ -129,15 +129,15 @@ class PagesControllerCommand extends GeneratorCommand
             return 'App\\Http\\';
         }
 
-        return 'FjordApp\\';
+        return 'Lit\\Http';
     }
 
-    protected function getFjordPath()
+    protected function getLitstackPath()
     {
         if ($this->option('app')) {
             return app_path('Http');
         }
 
-        return base_path('fjord/app');
+        return base_path('lit/app');
     }
 }

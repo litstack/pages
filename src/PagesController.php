@@ -2,9 +2,9 @@
 
 namespace Litstack\Pages;
 
-use Fjord\Crud\Controllers\CrudController;
+use Ignite\Crud\Controllers\CrudController;
 use Illuminate\Database\Eloquent\Builder;
-use Litstack\Pages\Models\FjordPage;
+use Litstack\Pages\Models\Page;
 
 class PagesController extends CrudController
 {
@@ -13,7 +13,7 @@ class PagesController extends CrudController
      *
      * @var string
      */
-    protected $model = FjordPage::class;
+    protected $model = Page::class;
 
     /**
      * Fill model on store.
