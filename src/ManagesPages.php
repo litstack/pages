@@ -3,6 +3,7 @@
 namespace Litstack\Pages;
 
 use Illuminate\Support\Str;
+use Litstack\Pages\Models\Page;
 
 trait ManagesPages
 {
