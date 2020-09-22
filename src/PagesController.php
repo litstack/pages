@@ -3,7 +3,6 @@
 namespace Litstack\Pages;
 
 use Ignite\Crud\Controllers\CrudController;
-use Illuminate\Database\Eloquent\Builder;
 use Litstack\Pages\Models\Page;
 
 class PagesController extends CrudController
@@ -32,8 +31,8 @@ class PagesController extends CrudController
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(): Builder
+    public function query($query)
     {
-        return $this->model::where('collection', $this->config->collection);
+        $query->where('collection', $this->config->collection);
     }
 }
