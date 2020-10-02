@@ -115,7 +115,7 @@ class PagesControllerCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace."\Http\Controllers\Pages";
+        return $rootNamespace.'\\Http\\Controllers\\Pages';
     }
 
     /**
@@ -126,18 +126,22 @@ class PagesControllerCommand extends GeneratorCommand
     protected function rootNamespace()
     {
         if ($this->option('app')) {
-            return 'App\\Http\\';
+            return 'App';
         }
 
-        return 'Lit\\Http';
+        return 'Lit';
     }
 
-    protected function getLitstackPath()
+    public function getPath($name)
     {
         if ($this->option('app')) {
-            return app_path('Http');
+            $name = Str::replaceFirst($this->rootNamespace(), '', $name);
+
+            return app_path(
+                str_replace('\\', '/', $name).'.php'
+            );
         }
 
-        return base_path('lit/app');
+        return parent::getPath($name);
     }
 }

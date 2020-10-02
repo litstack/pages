@@ -3,15 +3,22 @@
 namespace DummyNamespace;
 
 use Illuminate\Http\Request;
-use FjordPages\ManagesFjordPages;
+use Litstack\Pages\ManagesPages;
 
 class DummyClass
 {
-    use ManagesFjordPages;
+    use ManagesPages;
 
+    /**
+     * Handle page request.
+     *
+     * @param  Request  $request
+     * @param  string  $slug
+     * @return void
+     */
     public function __invoke(Request $request, $slug)
     {
-        $page = $this->getFjordPage($slug);
+        $page = $this->getLitstackPage($slug);
 
         echo "Edit the controller in <a href=\"vscode:://open?file=".__FILE__."\">".__FILE__."</a>";
 

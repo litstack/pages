@@ -1,0 +1,22 @@
+<?php
+
+namespace DummyNamespace;
+
+use Lit\Models\User;
+use Litstack\Pages\PagesController;
+
+class DummyClass extends PagesController
+{
+    /**
+     * Authorize request for authenticated fjord-user and permission operation.
+     * Operations: read, update
+     *
+     * @param  User  $user
+     * @param  string  $operation
+     * @return boolean
+     */
+    public function authorize(User $user, string $operation): bool
+    {
+        return true;
+    }
+}
