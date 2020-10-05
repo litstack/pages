@@ -1,118 +1,21 @@
-# Fjord Pages
+# Litstack Pages
 
-<p align="center">
-	<a href="https://github.com/aw-studio/fjord-pages/actions"><img src="https://github.com/aw-studio/fjord-pages/workflows/tests/badge.svg" alt="Build Status"></a>
-	<a href="https://packagist.org/packages/aw-studio/fjord-pages"><img src="https://img.shields.io/github/v/release/aw-studio/fjord-pages?color=%2383c2ff&label=stable" alt="Latest Stable Version"></a>
-	<a href="https://packagist.org/packages/aw-studio/fjord-pages"><img src="https://img.shields.io/github/license/aw-studio/fjord-pages?color=%2331c653" alt="License"></a>
-</p>
+Litstack **pages** help's you to quickly add new pages to your litstack application. This
+turns your Litstack admin panel into a **cms**.
 
-Fjord pages help you to quickly add new pages to your fjord application. This
-turns your Fjord admin panel into a **cms**.
+## Official Documentation
 
-![fjord pages](./screen.png 'fjord pages')
+Documentation for Rehearsal can be found on
+[litstack.io](https://litstack.io/docs/packages/pages).
 
-Install the package via composer:
+## Contributing
 
-```shell
-composer require aw-studio/fjord-pages
-```
-
-Publish the migrations and migrate:
-
-```shell
-php artisan vendor:publish --provider="FjordPages\FjordPagesServiceProvider" && php artisan migrate
-```
+We are happy that you are considering about contributing to the project.
+Checkout the contribution guide on
+[litstack.io](https://litstack.io/docs/prologue/contributing). Contributions of
+any kind welcome!
 
 ## License
 
-Bladesmith was created by
-**[Lennart Carstens-Behrens](https://twitter.com/lennartcb)** under the
-**[Sponsorware license](https://github.com/sponsorware/docs)**.
-
-## Setup a pages collection
-
-With the artisan command fjord:pages a new pages collection is created. For
-example `blog`:
-
-```shell
-php artisan fjord:pages Blog
-```
-
-A config is created and two controllers, one for the fjord backend in
-`./fjord/app/Controllers/Pages` and one for your application in
-`./app/Http/Controllers/Pages`.
-
-In the config you can configure the route prefix and the possible repeatabels.
-The url of the page consists of the route prefix specified in the config and the
-sluggified page title. So a route for the following case could be
-`/blog/my-title`. If the page is translatable a route is created for each locale
-specified in the config like so:
-
--   `en/blog/{slug}`
--   `en/blog/{slug}`
-
-```php
-// ./fjord/app/Config/Pages/BlogConfig.php
-
-namespace FjordApp\Config\Pages;
-
-...
-
-class BlogConfig extends PagesConfig
-{
-    ...
-
-    public function appRoutePrefix(string $locale = null)
-    {
-        return "blog";
-    }
-
-    public function repeatables(Repeatables $rep)
-    {
-        // Build your repeatables in here.
-    }
-}
-```
-
-In the controller the page model is loaded with the method `getFjordPage`. This
-can now be passed to a view like this:
-
-```php
-
-namespace App\Http\Controllers\Pages;
-
-use FjordPages\ManagesFjordPages;
-use Illuminate\Http\Request;
-
-class PagesController
-{
-    use ManagesFjordPages;
-
-    public function __invoke(Request $request, $slug)
-    {
-        $page = $this->getFjordPage($slug);
-
-        return view('pages.blog')->withPage($page);
-    }
-}
-```
-
-## Route Field
-
-To be able to select the pages in a route field you must first add them to a
-route collection as described in the
-[route field](https://www.fjord-admin.com/docs/fields/route/#register-routes)
-documentation.
-
-FjordPages extends to Eloquent Collection with the helper method
-`addToRouteCollection` that lets you add a list of pages directly to a route
-collection:
-
-```php
-use Fjord\Crud\Fields\Route;
-use FjordPage\Models\FjordPage;
-
-Route::register('app', function($collection) {
-    FjordPage::collection('blog')->get()->addToRouteCollection('Blog', $collection);
-});
-```
+Litstack Rehearsal is open-sourced software licensed under the
+[MIT license](LICENSE.md).
