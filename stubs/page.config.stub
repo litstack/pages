@@ -2,11 +2,11 @@
 
 namespace DummyNamespace;
 
-use FjordPages\PagesConfig;
+use Litstack\Pages\PagesConfig;
 use Illuminate\Routing\Route;
-use Fjord\Crud\Fields\Block\Repeatables;
+use Ignite\Crud\Fields\Block\Repeatables;
 use App\Http\Controllers\Pages\DummyController;
-use FjordApp\Controllers\Pages\DummyController as FjordDummyController;
+use Lit\Http\Controllers\Pages\DummyController as ListackDummyController;
 
 class DummyClass extends PagesConfig
 {
@@ -15,7 +15,7 @@ class DummyClass extends PagesConfig
      *
      * @var string
      */
-    public $controller = FjordDummyController::class;
+    public $controller = ListackDummyController::class;
 
     /**
      * App controller class.
