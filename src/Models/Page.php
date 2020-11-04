@@ -47,7 +47,7 @@ class Page extends LitFormModel implements TranslatableContract, HasMediaContrac
      *
      * @var array
      */
-    protected $fillable = ['title', 'value', 'collection', 'config_type'];
+    protected $fillable = ['title', 'slug', 'value', 'collection', 'config_type'];
 
     /**
      * Translated attributes.

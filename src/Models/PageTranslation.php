@@ -29,7 +29,7 @@ class PageTranslation extends Model
      *
      * @var array
      */
-    protected $fillable = ['t_title', 'value'];
+    protected $fillable = ['t_title', 't_slug', 'value'];
 
     /**
      * Casts.
