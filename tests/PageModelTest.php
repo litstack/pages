@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Ignite\Crud\BaseForm;
 use Ignite\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Request;
@@ -112,6 +113,18 @@ class PageModelTest extends TestCase
     }
 
     /** @test */
+    public function test_unique_slug_constraints_for_translatable_pages()
+    {
+        $this->artisan('migrate:fresh');
+        $page1 = Page::create(['en' => ['t_title' => 'title'], 'collection' => '', 'config_type' => FooTranslatableTestConfig::class]);
+        $page2 = Page::create(['en' => ['t_title' => 'title'], 'collection' => '', 'config_type' => FooTranslatableTestConfig::class]);
+        $page3 = Page::create(['en' => ['t_title' => 'title'], 'collection' => '', 'config_type' => BarTranslatableTestConfig::class]);
+
+        $this->assertNotEquals($page1->slug, $page2->slug);
+        $this->assertEquals($page1->slug, $page3->slug);
+    }
+
+    /** @test */
     public function test_collection_is_FjordPagesCollection_instance()
     {
         $this->artisan('migrate:fresh');
@@ -161,5 +174,28 @@ class PageModelTest extends TestCase
         URL::partialMock()->shouldReceive('route')->andReturn('foo');
         $page = Page::create(['title' => 'bar', 'collection' => '', 'config_type' => '']);
         $this->assertSame('foo', $page->uri);
+    }
+}
+
+class FooTranslatableTestConfig
+{
+    public $translatable = true;
+
+    public $show;
+
+    public function __construct()
+    {
+        $this->show = new BaseForm('foo');
+    }
+}
+class BarTranslatableTestConfig
+{
+    public $translatable = true;
+
+    public $show;
+
+    public function __construct()
+    {
+        $this->show = new BaseForm('bar');
     }
 }
