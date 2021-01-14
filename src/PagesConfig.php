@@ -121,6 +121,16 @@ abstract class PagesConfig extends CrudConfig
     {
         return $this->translatable() ? 't_title' : 'title';
     }
+    
+    /**
+     * Get title column name.
+     *
+     * @return string
+     */
+    protected function getSlugColumnName()
+    {
+        return $this->translatable() ? 't_slug' : 'slug';
+    }
 
     /**
      * Setup create and edit form.
@@ -136,7 +146,19 @@ abstract class PagesConfig extends CrudConfig
                 ->creationRules('required')
                 ->rules('min:2')
                 ->title('Title')
+                ->width(8)
                 ->hint('Seitentitel in Litstack / Aus dem Titel wird auch der Slug für die URL generiert');
+            
+            $form->modal('change_slug')
+                ->title('Slug')
+                ->variant('primary')
+                ->preview($this->routePrefix()."/<b>{".$this->getSlugColumnName()."}</b>")
+                ->name('Change Slug')
+                ->form(function ($modal) {
+                    $modal->input($this->getSlugColumnName())
+                        ->width(12)
+                        ->title('Slug');
+                })->width(4);
 
             $form->image('page_image')
                 ->title('Page-Image')

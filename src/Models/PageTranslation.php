@@ -60,7 +60,7 @@ class PageTranslation extends Model
      *
      * @return array
      */
-    public function sluggable()
+    public function sluggable(): array
     {
         return [
             't_slug' => [
