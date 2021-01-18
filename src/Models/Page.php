@@ -104,7 +104,7 @@ class Page extends LitFormModel implements TranslatableContract, HasMediaContrac
 
         $name = $route->getName();
 
-        if (Str::startsWith($name, $locale = app()->getLocale().'.')) {
+        if (Str::startsWith($name, $locale = app()->getLocale() . '.')) {
             $name = Str::replaceFirst($locale, '', $name);
         }
 
@@ -295,7 +295,7 @@ class Page extends LitFormModel implements TranslatableContract, HasMediaContrac
             return $this->getAttribute("t_{$key}");
         }
 
-        return $this->attributes[$key];
+        return $this->attributes[$key] ?? null;
     }
 
     /**
@@ -304,7 +304,7 @@ class Page extends LitFormModel implements TranslatableContract, HasMediaContrac
      * @param  string $key
      * @return mixed
      */
-    public function __get($key)
+    public function getAttribute($key)
     {
         if ($key === 'slug') {
             return $this->getPageAttribute($key);
@@ -314,6 +314,6 @@ class Page extends LitFormModel implements TranslatableContract, HasMediaContrac
             return $this->getPageAttribute($key);
         }
 
-        return $this->getAttribute($key);
+        return parent::getAttribute($key);
     }
 }
