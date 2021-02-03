@@ -221,12 +221,12 @@ class Page extends LitFormModel implements TranslatableContract, HasMediaContrac
             return;
         }
 
-        if (! $this->slug) {
+        if (! $slug = $this->getPageAttribute('slug', $locale)) {
             return;
         }
 
         return route($this->getRouteName($locale), [
-            'slug' => $this->slug,
+            'slug' => $slug,
         ], false);
     }
 
@@ -287,12 +287,13 @@ class Page extends LitFormModel implements TranslatableContract, HasMediaContrac
      * Get page attribute.
      *
      * @param  string $key
+     * @param string $locale
      * @return mixed
      */
-    protected function getPageAttribute($key)
+    protected function getPageAttribute($key, $locale = null)
     {
         if ($this->isTranslatable()) {
-            return $this->getAttribute("t_{$key}");
+            return $this->translate($locale)->{"t_{$key}"};
         }
 
         return $this->attributes[$key] ?? null;
@@ -307,11 +308,11 @@ class Page extends LitFormModel implements TranslatableContract, HasMediaContrac
     public function getAttribute($key)
     {
         if ($key === 'slug') {
-            return $this->getPageAttribute($key);
+            return $this->getPageAttribute($key, app()->getLocale());
         }
 
         if ($key === 'title') {
-            return $this->getPageAttribute($key);
+            return $this->getPageAttribute($key, app()->getLocale());
         }
 
         return parent::getAttribute($key);
