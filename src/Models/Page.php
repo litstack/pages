@@ -293,9 +293,11 @@ class Page extends LitFormModel implements TranslatableContract, HasMediaContrac
     protected function getPageAttribute($key, $locale = null)
     {
         if ($this->isTranslatable()) {
-            return $this->translate($locale)->{"t_{$key}"};
+            if ($translation = $this->translate($locale ?? app()->getLocale())) {
+                return $translation->{"t_{$key}"};
+            }
+            return;
         }
-
         return $this->attributes[$key] ?? null;
     }
 
