@@ -299,7 +299,6 @@ class Page extends LitFormModel implements TranslatableContract, HasMediaContrac
 
             return;
         }
-
         return $this->attributes[$key] ?? null;
     }
 
