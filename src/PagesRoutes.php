@@ -57,15 +57,13 @@ class PagesRoutes
         $name = $this->routeName("pages.{$config->collection}", $locale);
         $prefix = $this->routePrefix($config->appRoutePrefix($locale), $locale);
 
-        if ($config->collection != 'root') {
-            $this->resolvePagesRoute($config, $prefix, $name);
-        } else {
+        if ($config->collection == 'root') {
             $prefix = $locale ? "/{$locale}" : '';
-
-            $this->app->booted(function ($app) use ($config, $prefix, $name) {
-                $this->resolvePagesRoute($config, $prefix, $name);
-            });
         }
+
+        $this->app->booted(function ($app) use ($config, $prefix, $name) {
+            $this->resolvePagesRoute($config, $prefix, $name);
+        });
     }
 
     /**
