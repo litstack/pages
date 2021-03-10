@@ -54,6 +54,8 @@ class PageModelTest extends TestCase
     {
         $config = m::mock('config');
         $config->translatable = 'foo';
+        $config->show = $config;
+        $config->shouldReceive('getRegisteredFields')->andReturn(collect([]));
         Config::partialMock()->shouldReceive('get')->andReturn($config);
         $page = new Page();
         $page->config_type = static::class;
@@ -72,7 +74,9 @@ class PageModelTest extends TestCase
     {
         $this->app->setLocale('en');
         $config = m::mock('config');
+        $config->show = $config;
         $config->translatable = true;
+        $config->shouldReceive('getRegisteredFields')->andReturn(collect([]));
         Config::partialMock()->shouldReceive('get')->andReturn($config);
         $page = new Page(['title' => 'foo', 'en' => ['t_title' => 'bar']]);
         $page->config_type = static::class;
@@ -92,7 +96,9 @@ class PageModelTest extends TestCase
     {
         $this->app->setLocale('en');
         $config = m::mock('config');
+        $config->show = $config;
         $config->translatable = true;
+        $config->shouldReceive('getRegisteredFields')->andReturn(collect([]));
         Config::partialMock()->shouldReceive('get')->andReturn($config);
         $page = new Page(['en' => []]);
         $page->slug = 'foo';
@@ -148,7 +154,10 @@ class PageModelTest extends TestCase
     {
         $config = m::mock('config');
         $config->translatable = true;
+        $config->show = $config;
+        $config->shouldReceive('getRegisteredFields')->andReturn(collect([]));
         Config::partialMock()->shouldReceive('get')->andReturn($config);
+        
         $page = new Page(['collection' => 'foo']);
         $page->config_type = static::class;
 
