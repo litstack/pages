@@ -296,6 +296,7 @@ class Page extends LitFormModel implements TranslatableContract, HasMediaContrac
             if ($translation = $this->translate($locale ?? app()->getLocale())) {
                 return $translation->{"t_{$key}"};
             }
+
             return;
         }
         return $this->attributes[$key] ?? null;
