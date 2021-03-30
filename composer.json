@@ -10,9 +10,6 @@
 	"scripts": {
 		"test": "vendor/bin/phpunit"
 	},
-	"require": {
-		"litstack/meta": "^1.0"
-	},
 	"require-dev": {
 		"phpunit/phpunit": "^9.2",
 		"mockery/mockery": "^1.4",

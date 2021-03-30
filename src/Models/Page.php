@@ -3,10 +3,8 @@
 namespace Litstack\Pages\Models;
 
 use Illuminate\Support\Str;
-use Litstack\Meta\Metaable;
 use Illuminate\Routing\Route;
 use Ignite\Config\ConfigHandler;
-use Litstack\Meta\Traits\HasMeta;
 use Ignite\Support\Facades\Config;
 use Litstack\Pages\PagesCollection;
 use Ignite\Crud\Models\LitFormModel;
@@ -19,9 +17,9 @@ use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 /**
  * @method static void collection(string $collection)
  */
-class Page extends LitFormModel implements TranslatableContract, HasMediaContract, Metaable
+class Page extends LitFormModel implements TranslatableContract, HasMediaContract
 {
-    use Sluggable, Translatable, HasMeta;
+    use Sluggable, Translatable;
 
     /**
      * Database table name.
