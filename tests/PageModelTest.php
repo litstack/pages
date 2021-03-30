@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Ignite\Crud\BaseForm;
 use Ignite\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Request;
@@ -53,6 +54,8 @@ class PageModelTest extends TestCase
     {
         $config = m::mock('config');
         $config->translatable = 'foo';
+        $config->show = $config;
+        $config->shouldReceive('getRegisteredFields')->andReturn(collect([]));
         Config::partialMock()->shouldReceive('get')->andReturn($config);
         $page = new Page();
         $page->config_type = static::class;
@@ -71,7 +74,9 @@ class PageModelTest extends TestCase
     {
         $this->app->setLocale('en');
         $config = m::mock('config');
+        $config->show = $config;
         $config->translatable = true;
+        $config->shouldReceive('getRegisteredFields')->andReturn(collect([]));
         Config::partialMock()->shouldReceive('get')->andReturn($config);
         $page = new Page(['title' => 'foo', 'en' => ['t_title' => 'bar']]);
         $page->config_type = static::class;
@@ -91,7 +96,9 @@ class PageModelTest extends TestCase
     {
         $this->app->setLocale('en');
         $config = m::mock('config');
+        $config->show = $config;
         $config->translatable = true;
+        $config->shouldReceive('getRegisteredFields')->andReturn(collect([]));
         Config::partialMock()->shouldReceive('get')->andReturn($config);
         $page = new Page(['en' => []]);
         $page->slug = 'foo';
@@ -107,6 +114,18 @@ class PageModelTest extends TestCase
         $page1 = Page::create(['title' => 'title', 'collection' => '', 'config_type' => 'foo']);
         $page2 = Page::create(['title' => 'title', 'collection' => '', 'config_type' => 'foo']);
         $page3 = Page::create(['title' => 'title', 'collection' => '', 'config_type' => 'bar']);
+        $this->assertNotEquals($page1->slug, $page2->slug);
+        $this->assertEquals($page1->slug, $page3->slug);
+    }
+
+    /** @test */
+    public function test_unique_slug_constraints_for_translatable_pages()
+    {
+        $this->artisan('migrate:fresh');
+        $page1 = Page::create(['en' => ['t_title' => 'title'], 'collection' => '', 'config_type' => FooTranslatableTestConfig::class]);
+        $page2 = Page::create(['en' => ['t_title' => 'title'], 'collection' => '', 'config_type' => FooTranslatableTestConfig::class]);
+        $page3 = Page::create(['en' => ['t_title' => 'title'], 'collection' => '', 'config_type' => BarTranslatableTestConfig::class]);
+
         $this->assertNotEquals($page1->slug, $page2->slug);
         $this->assertEquals($page1->slug, $page3->slug);
     }
@@ -135,7 +154,10 @@ class PageModelTest extends TestCase
     {
         $config = m::mock('config');
         $config->translatable = true;
+        $config->show = $config;
+        $config->shouldReceive('getRegisteredFields')->andReturn(collect([]));
         Config::partialMock()->shouldReceive('get')->andReturn($config);
+        
         $page = new Page(['collection' => 'foo']);
         $page->config_type = static::class;
 
@@ -161,5 +183,28 @@ class PageModelTest extends TestCase
         URL::partialMock()->shouldReceive('route')->andReturn('foo');
         $page = Page::create(['title' => 'bar', 'collection' => '', 'config_type' => '']);
         $this->assertSame('foo', $page->uri);
+    }
+}
+
+class FooTranslatableTestConfig
+{
+    public $translatable = true;
+
+    public $show;
+
+    public function __construct()
+    {
+        $this->show = new BaseForm('foo');
+    }
+}
+class BarTranslatableTestConfig
+{
+    public $translatable = true;
+
+    public $show;
+
+    public function __construct()
+    {
+        $this->show = new BaseForm('bar');
     }
 }

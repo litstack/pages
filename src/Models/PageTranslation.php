@@ -29,7 +29,7 @@ class PageTranslation extends Model
      *
      * @var array
      */
-    protected $fillable = ['t_title', 'value'];
+    protected $fillable = ['t_title', 't_slug', 'value'];
 
     /**
      * Casts.
@@ -60,7 +60,7 @@ class PageTranslation extends Model
      *
      * @return array
      */
-    public function sluggable()
+    public function sluggable(): array
     {
         return [
             't_slug' => [

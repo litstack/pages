@@ -2,15 +2,18 @@
 
 namespace Litstack\Pages;
 
-use Ignite\Crud\Config\CrudConfig;
-use Ignite\Crud\CrudIndex;
 use Ignite\Crud\CrudShow;
-use Ignite\Crud\Fields\Block\Repeatables;
+use Ignite\Crud\CrudIndex;
 use Illuminate\Support\Str;
 use Litstack\Pages\Models\Page;
+use Ignite\Crud\Config\CrudConfig;
+use Litstack\Meta\Traits\CrudHasMeta;
+use Ignite\Crud\Fields\Block\Repeatables;
 
 abstract class PagesConfig extends CrudConfig
 {
+    use CrudHasMeta;
+
     /**
      * Pages model class.
      *
@@ -82,7 +85,7 @@ abstract class PagesConfig extends CrudConfig
     public function index(CrudIndex $container)
     {
         $container->table(fn ($table) => $this->indexTableColumns($table))
-            ->search('title');
+            ->search($this->getTitleColumnName());
     }
 
     /**
@@ -121,6 +124,16 @@ abstract class PagesConfig extends CrudConfig
     {
         return $this->translatable() ? 't_title' : 'title';
     }
+    
+    /**
+     * Get title column name.
+     *
+     * @return string
+     */
+    protected function getSlugColumnName()
+    {
+        return $this->translatable() ? 't_slug' : 'slug';
+    }
 
     /**
      * Setup create and edit form.
@@ -136,7 +149,19 @@ abstract class PagesConfig extends CrudConfig
                 ->creationRules('required')
                 ->rules('min:2')
                 ->title('Title')
+                ->width(8)
                 ->hint('Seitentitel in Litstack / Aus dem Titel wird auch der Slug für die URL generiert');
+            
+            $form->modal('change_slug')
+                ->title('Slug')
+                ->variant('primary')
+                ->preview($this->routePrefix()."/<b>{".$this->getSlugColumnName()."}</b>")
+                ->name('Change Slug')
+                ->form(function ($modal) {
+                    $modal->input($this->getSlugColumnName())
+                        ->width(12)
+                        ->title('Slug');
+                })->width(4);
 
             $form->image('page_image')
                 ->title('Page-Image')
@@ -164,8 +189,6 @@ abstract class PagesConfig extends CrudConfig
         });
 
         $this->appendForm($page);
-
-        $page->meta();
     }
 
     public function prependForm(CrudShow $form)

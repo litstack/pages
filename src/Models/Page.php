@@ -2,24 +2,26 @@
 
 namespace Litstack\Pages\Models;
 
-use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
-use Astrotomic\Translatable\Translatable;
+use Illuminate\Support\Str;
+use Litstack\Meta\Metaable;
+use Illuminate\Routing\Route;
 use Ignite\Config\ConfigHandler;
+use Litstack\Meta\Traits\HasMeta;
+use Ignite\Support\Facades\Config;
+use Litstack\Pages\PagesCollection;
 use Ignite\Crud\Models\LitFormModel;
 use Ignite\Crud\Models\Traits\Sluggable;
-use Ignite\Support\Facades\Config;
+use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Routing\Route;
-use Illuminate\Support\Str;
-use Litstack\Pages\PagesCollection;
 use Spatie\MediaLibrary\HasMedia as HasMediaContract;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
 /**
  * @method static void collection(string $collection)
  */
-class Page extends LitFormModel implements TranslatableContract, HasMediaContract
+class Page extends LitFormModel implements TranslatableContract, HasMediaContract, Metaable
 {
-    use Sluggable, Translatable;
+    use Sluggable, Translatable, HasMeta;
 
     /**
      * Database table name.
@@ -47,7 +49,9 @@ class Page extends LitFormModel implements TranslatableContract, HasMediaContrac
      *
      * @var array
      */
-    protected $fillable = ['title', 'value', 'collection', 'config_type'];
+    protected $fillable = [
+        'title', 'slug', 'value', 'collection', 'config_type',
+    ];
 
     /**
      * Translated attributes.
@@ -102,7 +106,7 @@ class Page extends LitFormModel implements TranslatableContract, HasMediaContrac
 
         $name = $route->getName();
 
-        if (Str::startsWith($name, $locale = app()->getLocale().'.')) {
+        if (Str::startsWith($name, $locale = app()->getLocale() . '.')) {
             $name = Str::replaceFirst($locale, '', $name);
         }
 
@@ -219,12 +223,12 @@ class Page extends LitFormModel implements TranslatableContract, HasMediaContrac
             return;
         }
 
-        if (! $this->slug) {
+        if (! $slug = $this->getPageAttribute('slug', $locale)) {
             return;
         }
 
         return route($this->getRouteName($locale), [
-            'slug' => $this->slug,
+            'slug' => $slug,
         ], false);
     }
 
@@ -285,15 +289,19 @@ class Page extends LitFormModel implements TranslatableContract, HasMediaContrac
      * Get page attribute.
      *
      * @param  string $key
+     * @param string $locale
      * @return mixed
      */
-    protected function getPageAttribute($key)
+    protected function getPageAttribute($key, $locale = null)
     {
         if ($this->isTranslatable()) {
-            return $this->getAttribute("t_{$key}");
-        }
+            if ($translation = $this->translate($locale ?? app()->getLocale())) {
+                return $translation->{"t_{$key}"};
+            }
 
-        return $this->attributes[$key];
+            return;
+        }
+        return $this->attributes[$key] ?? null;
     }
 
     /**
@@ -302,16 +310,16 @@ class Page extends LitFormModel implements TranslatableContract, HasMediaContrac
      * @param  string $key
      * @return mixed
      */
-    public function __get($key)
+    public function getAttribute($key)
     {
         if ($key === 'slug') {
-            return $this->getPageAttribute($key);
+            return $this->getPageAttribute($key, app()->getLocale());
         }
 
         if ($key === 'title') {
-            return $this->getPageAttribute($key);
+            return $this->getPageAttribute($key, app()->getLocale());
         }
 
-        return $this->getAttribute($key);
+        return parent::getAttribute($key);
     }
 }
