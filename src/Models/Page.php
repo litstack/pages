@@ -2,24 +2,26 @@
 
 namespace Litstack\Pages\Models;
 
-use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
-use Astrotomic\Translatable\Translatable;
+use Illuminate\Support\Str;
+use Litstack\Meta\Metaable;
+use Illuminate\Routing\Route;
 use Ignite\Config\ConfigHandler;
+use Litstack\Meta\Traits\HasMeta;
+use Ignite\Support\Facades\Config;
+use Litstack\Pages\PagesCollection;
 use Ignite\Crud\Models\LitFormModel;
 use Ignite\Crud\Models\Traits\Sluggable;
-use Ignite\Support\Facades\Config;
+use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Routing\Route;
-use Illuminate\Support\Str;
-use Litstack\Pages\PagesCollection;
 use Spatie\MediaLibrary\HasMedia as HasMediaContract;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
 /**
  * @method static void collection(string $collection)
  */
-class Page extends LitFormModel implements TranslatableContract, HasMediaContract
+class Page extends LitFormModel implements TranslatableContract, HasMediaContract, Metaable
 {
-    use Sluggable, Translatable;
+    use Sluggable, Translatable, HasMeta;
 
     /**
      * Database table name.
