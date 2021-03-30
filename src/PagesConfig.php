@@ -2,15 +2,18 @@
 
 namespace Litstack\Pages;
 
-use Ignite\Crud\Config\CrudConfig;
-use Ignite\Crud\CrudIndex;
 use Ignite\Crud\CrudShow;
-use Ignite\Crud\Fields\Block\Repeatables;
+use Ignite\Crud\CrudIndex;
 use Illuminate\Support\Str;
 use Litstack\Pages\Models\Page;
+use Ignite\Crud\Config\CrudConfig;
+use Litstack\Meta\Traits\CrudHasMeta;
+use Ignite\Crud\Fields\Block\Repeatables;
 
 abstract class PagesConfig extends CrudConfig
 {
+    use CrudHasMeta;
+
     /**
      * Pages model class.
      *
@@ -186,8 +189,6 @@ abstract class PagesConfig extends CrudConfig
         });
 
         $this->appendForm($page);
-
-        $page->meta();
     }
 
     public function prependForm(CrudShow $form)
