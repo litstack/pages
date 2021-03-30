@@ -13,7 +13,7 @@ jobs:
         strategy:
             fail-fast: true
             matrix:
-                php: [7.4]
+                php: [8.0]
                 litstack: [3.*]
                 laravel: [7.*, 8.*]
                 stability: [prefer-stable]
