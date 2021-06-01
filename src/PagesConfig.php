@@ -155,7 +155,7 @@ abstract class PagesConfig extends CrudConfig
             $form->modal('change_slug')
                 ->title('Slug')
                 ->variant('primary')
-                ->preview($this->routePrefix()."/<b>{".$this->getSlugColumnName()."}</b>")
+                ->preview(url('/')."/<b>{".$this->getSlugColumnName()."}</b>")
                 ->name('Change Slug')
                 ->form(function ($modal) {
                     $modal->input($this->getSlugColumnName())
