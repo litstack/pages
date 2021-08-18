@@ -2,17 +2,17 @@
 
 namespace Litstack\Pages;
 
-use Ignite\Crud\CrudShow;
-use Ignite\Crud\CrudIndex;
-use Illuminate\Support\Str;
-use Litstack\Pages\Models\Page;
 use Ignite\Crud\Config\CrudConfig;
-use Litstack\Meta\Traits\CrudHasMeta;
+use Ignite\Crud\CrudIndex;
+use Ignite\Crud\CrudShow;
 use Ignite\Crud\Fields\Block\Repeatables;
+use Illuminate\Support\Str;
+use Litstack\Meta\Traits\HasMeta;
+use Litstack\Pages\Models\Page;
 
 abstract class PagesConfig extends CrudConfig
 {
-    use CrudHasMeta;
+    use HasMeta;
 
     /**
      * Pages model class.
@@ -43,7 +43,7 @@ abstract class PagesConfig extends CrudConfig
      */
     public function litstackRoutePrefix()
     {
-        return 'pages/'.Str::slug($this->collection());
+        return 'pages/' . Str::slug($this->collection());
     }
 
     /**
@@ -98,7 +98,7 @@ abstract class PagesConfig extends CrudConfig
     {
         $this->makeTitleColumns($table);
 
-        $table->col('Url '.fa('external-link-alt'))
+        $table->col('Url ' . fa('external-link-alt'))
             ->value('<a href="{uri}" target="_blank">{uri}</a>')
             ->link(false);
     }
@@ -112,7 +112,7 @@ abstract class PagesConfig extends CrudConfig
     protected function makeTitleColumns($table)
     {
         $table->col('Title')
-            ->value('{'.$this->getTitleColumnName().'}');
+            ->value('{' . $this->getTitleColumnName() . '}');
     }
 
     /**
@@ -124,7 +124,7 @@ abstract class PagesConfig extends CrudConfig
     {
         return $this->translatable() ? 't_title' : 'title';
     }
-    
+
     /**
      * Get title column name.
      *
@@ -151,11 +151,11 @@ abstract class PagesConfig extends CrudConfig
                 ->title('Title')
                 ->width(8)
                 ->hint('Seitentitel in Litstack / Aus dem Titel wird auch der Slug für die URL generiert');
-            
+
             $form->modal('change_slug')
                 ->title('Slug')
                 ->variant('primary')
-                ->preview($this->routePrefix()."/<b>{".$this->getSlugColumnName()."}</b>")
+                ->preview($this->routePrefix() . '/<b>{' . $this->getSlugColumnName() . '}</b>')
                 ->name('Change Slug')
                 ->form(function ($modal) {
                     $modal->input($this->getSlugColumnName())
