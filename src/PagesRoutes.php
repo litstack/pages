@@ -76,7 +76,11 @@ class PagesRoutes
      */
     protected function resolvePagesRoute(ConfigHandler $config, $prefix, $name)
     {
-        $route = Route::prefix($prefix)->get('/{slug}', $config->appController)->config($config->getKey())->name($name);
+        $route = Route::prefix($prefix)
+            ->middleware('web')
+            ->get('/{slug}', $config->appController)
+            ->config($config->getKey())
+            ->name($name);
 
         foreach ($this->extender as $extender) {
             $extender($route);
