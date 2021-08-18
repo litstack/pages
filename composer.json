@@ -1,44 +1,44 @@
 {
-	"name": "litstack/pages",
-	"license": "MIT",
-	"authors": [
-		{
-			"name": "Lennart Carstens-Behrens",
-			"email": "lennart.carbe@gmail.com"
-		}
-	],
-	"scripts": {
-		"test": "vendor/bin/phpunit"
-	},
-	"require": {
-		"litstack/meta": "^1.0"
-	},
-	"require-dev": {
-		"phpunit/phpunit": "^9.2",
-		"mockery/mockery": "^1.4",
-		"litstack/rehearsal": "^1.0",
-		"orchestra/testbench": "^5.0|^6.0"
-	},
-	"autoload": {
-		"psr-4": {
-			"Litstack\\Pages\\": "src/"
-		}
-	},
-	"autoload-dev": {
-		"psr-4": {
-			"Tests\\": "tests/"
-		}
-	},
-	"extra": {
-		"laravel": {
-			"providers": [
-				"Litstack\\Pages\\PagesServiceProvider"
-			]
-		},
-		"branch-alias": {
-			"dev-master": "2.x-dev"
-		}
-	},
-	"minimum-stability": "dev",
-	"prefer-stable": true
+    "name": "litstack/pages",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lennart Carstens-Behrens",
+            "email": "lennart.carbe@gmail.com"
+        }
+    ],
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "require": {
+        "litstack/meta": "^2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.2",
+        "mockery/mockery": "^1.4",
+        "litstack/rehearsal": "^1.0",
+        "orchestra/testbench": "^5.0|^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Litstack\\Pages\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Litstack\\Pages\\PagesServiceProvider"
+            ]
+        },
+        "branch-alias": {
+            "dev-master": "2.x-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
