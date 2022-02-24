@@ -11,7 +11,7 @@
         "test": "vendor/bin/phpunit"
     },
     "require": {
-        "litstack/meta": "^2.0"
+        "litstack/meta": "^2.0 | dev-main"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.2",
