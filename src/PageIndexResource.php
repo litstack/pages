@@ -4,7 +4,7 @@ namespace Litstack\Pages;
 
 use Ignite\Crud\CrudResource;
 
-class ProductResource extends CrudResource
+class ProductIndexResource extends CrudResource
 {
     /**
      * Transform the resource into an array.
