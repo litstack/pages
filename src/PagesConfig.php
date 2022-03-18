@@ -85,7 +85,8 @@ abstract class PagesConfig extends CrudConfig
     public function index(CrudIndex $container)
     {
         $container->table(fn ($table) => $this->indexTableColumns($table))
-            ->search($this->getTitleColumnName());
+            ->search($this->getTitleColumnName())
+            ->resource(PageIndexResource::class);
     }
 
     /**
