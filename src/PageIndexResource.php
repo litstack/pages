@@ -15,7 +15,8 @@ class PageIndexResource extends CrudResource
     public function toArray($request)
     {
         $attributes = [
-            'uri' => $this->uri
+            'uri' => $this->uri,
+            'id'  => $this->id,
         ];
 
         if ($this->config->translatable) {
