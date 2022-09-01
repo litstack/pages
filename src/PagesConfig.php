@@ -8,6 +8,7 @@ use Ignite\Crud\CrudShow;
 use Ignite\Crud\Fields\Block\Repeatables;
 use Illuminate\Support\Str;
 use Litstack\Meta\Traits\FormHasMeta;
+use Litstack\Pages\Actions\PageDuplicateAction;
 use Litstack\Pages\Models\Page;
 
 abstract class PagesConfig extends CrudConfig
@@ -85,6 +86,7 @@ abstract class PagesConfig extends CrudConfig
     public function index(CrudIndex $container)
     {
         $container->table(fn ($table) => $this->indexTableColumns($table))
+            ->action('Duplicate', PageDuplicateAction::class)
             ->search($this->getTitleColumnName())
             ->resource(PageIndexResource::class);
     }
