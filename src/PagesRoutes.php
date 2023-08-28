@@ -58,7 +58,7 @@ class PagesRoutes
         $prefix = $this->routePrefix($config->appRoutePrefix($locale), $locale);
 
         if ($config->collection == 'root') {
-            $prefix = $locale ? "/{$locale}" : '';
+            $prefix = $locale && $locale != (config('translatable.fallback_locale') ?: config('app.locale')) ? "/{$locale}" : '';
         }
 
         $this->app->booted(function ($app) use ($config, $prefix, $name) {
