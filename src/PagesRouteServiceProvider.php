@@ -45,7 +45,9 @@ class PagesRouteServiceProvider extends RouteServiceProvider
      */
     protected function makeTranslatableRoutes(ConfigHandler $config)
     {
-        foreach (config('translatable.locales') as $locale) {
+        $locales = config('app.locales') ?: config('translatable.locales');
+
+        foreach ($locales as $locale) {
             $this->makePagesRoute($config, $locale);
         }
     }
